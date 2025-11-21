@@ -91,6 +91,10 @@ io.on('connection', (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Cyber Security Tools Portal listening at http://localhost:${port}`);
-});
+if (require.main === module) {
+  server.listen(port, () => {
+    console.log(`Cyber Security Tools Portal listening at http://localhost:${port}`);
+  });
+}
+
+module.exports = app;
