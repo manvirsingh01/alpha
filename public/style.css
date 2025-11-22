@@ -413,6 +413,30 @@ textarea:focus {
     padding: 10px;
 }
 
+/* Custom Scrollbar for Terminal */
+.xterm .xterm-viewport {
+    overflow-y: auto !important;
+}
+
+.xterm .xterm-viewport::-webkit-scrollbar {
+    width: 10px;
+}
+
+.xterm .xterm-viewport::-webkit-scrollbar-track {
+    background: rgba(0, 255, 0, 0.05);
+    border-left: 1px solid var(--border-color);
+}
+
+.xterm .xterm-viewport::-webkit-scrollbar-thumb {
+    background: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.xterm .xterm-viewport::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
 .temp-controls {
     margin-bottom: 30px;
 }

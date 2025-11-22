@@ -720,7 +720,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 cursor: '#00ff00',
                 cursorAccent: '#000000',
                 selection: '#003300'
-            }
+            },
+            scrollback: 5000, // Allow scrolling back 5000 lines
+            scrollOnUserInput: true,
+            screenReaderMode: true
         });
 
         // Add fit addon
