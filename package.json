@@ -2,8 +2,9 @@
   "name": "alpha",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,7 +18,6 @@
     "mailparser": "^3.9.0",
     "multer": "^2.0.2",
     "pcap-parser": "^0.2.1",
-    "smtp-server": "^3.16.1",
     "socket.io": "^4.8.1",
     "uuid": "^13.0.0"
   },
