@@ -112,7 +112,7 @@ router.get('/email/:id/inbox', async (req, res) => {
         }
 
         const inbox = list.map(mail => ({
-            id: mail.mail_id,
+            id: String(mail.mail_id),
             from: mail.mail_from,
             subject: mail.mail_subject,
             body: mail.mail_excerpt, // Preview only, full body needs fetch
@@ -150,7 +150,7 @@ router.get('/email/:id/message/:messageId', async (req, res) => {
 
         if (mail) {
             return res.json({
-                id: mail.mail_id,
+                id: String(mail.mail_id),
                 from: mail.mail_from,
                 subject: mail.mail_subject,
                 body: mail.mail_body, // Full body

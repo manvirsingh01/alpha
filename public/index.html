@@ -63,13 +63,24 @@
                         <span>VIRUSTOTAL</span>
                     </div>
                     <ul class="category-items">
-                        <li data-route="virustotal/file-scan">FILE_SCANNER</li>
-                        <li data-route="virustotal/url-scan">URL_SCANNER</li>
-                        <li data-route="virustotal/hash-lookup">HASH_LOOKUP</li>
-                        <li data-route="virustotal/ip-domain">IP/DOMAIN_LOOKUP</li>
+                        <li data-route="scanners/virustotal-file">FILE_SCANNER</li>
+                        <li data-route="scanners/virustotal-url">URL_SCANNER</li>
+                        <li data-route="scanners/virustotal-hash">HASH_LOOKUP</li>
+                        <li data-route="scanners/virustotal-ip">IP/DOMAIN_LOOKUP</li>
                     </ul>
                 </div>
 
+
+
+                <div class="category">
+                    <div class="category-header" data-category="network">
+                        <span class="category-icon">▶</span>
+                        <span>NETWORK_TOOLS</span>
+                    </div>
+                    <ul class="category-items">
+                        <li data-route="network/pcap">PACKET_ANALYZER</li>
+                    </ul>
+                </div>
 
                 <div class="category">
                     <div class="category-header" data-category="terminal">
@@ -344,6 +355,99 @@
                     </div>
                 </div>
 
+                <!-- PCAP Analyzer Tool -->
+                <div id="pcap-tool" class="tool-panel">
+                    <h2>// PACKET_ANALYZER</h2>
+                    <div class="tool-interface">
+                        <!-- Live Capture Section -->
+                        <div class="capture-section">
+                            <h3>LIVE PACKET CAPTURE</h3>
+                            <div class="input-group">
+                                <label>NETWORK INTERFACE:</label>
+                                <select id="network-interface" class="cyber-select">
+                                    <option value="">Loading interfaces...</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>CAPTURE FILTER (BPF):</label>
+                                <input type="text" id="capture-filter" class="cyber-text-input"
+                                    placeholder="e.g., tcp port 80">
+                            </div>
+                            <div class="controls">
+                                <button id="btn-start-capture" class="cyber-btn">START CAPTURE</button>
+                                <button id="btn-stop-capture" class="cyber-btn warning" disabled>STOP CAPTURE</button>
+                                <span id="capture-indicator" class="capture-indicator"></span>
+                            </div>
+                            <div id="live-capture-stats" class="live-stats">
+                                <span>Packets: <strong id="live-packet-count">0</strong></span>
+                                <span>Bytes: <strong id="live-byte-count">0</strong></span>
+                            </div>
+                        </div>
+
+                        <hr style="border-color: var(--border-color); margin: 20px 0;">
+
+                        <!-- File Upload Section -->
+                        <div class="input-group">
+                            <label>UPLOAD PCAP FILE:</label>
+                            <input type="file" id="pcap-file-input" accept=".pcap,.pcapng,.cap" class="cyber-input">
+                        </div>
+                        <div class="controls">
+                            <button id="btn-analyze-pcap" class="cyber-btn">ANALYZE >></button>
+                            <button id="btn-pcap-clear" class="cyber-btn warning">CLEAR</button>
+                        </div>
+                        <div id="pcap-status" class="vt-status"></div>
+
+                        <!-- Statistics Section -->
+                        <div id="pcap-stats" class="pcap-stats" style="display: none;">
+                            <h3>CAPTURE STATISTICS</h3>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-label">TOTAL PACKETS:</span>
+                                    <span id="stat-packets" class="stat-value">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">TOTAL BYTES:</span>
+                                    <span id="stat-bytes" class="stat-value">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">AVG PACKET SIZE:</span>
+                                    <span id="stat-avg-size" class="stat-value">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">DURATION:</span>
+                                    <span id="stat-duration" class="stat-value">0s</span>
+                                </div>
+                            </div>
+
+                            <h3>PROTOCOL DISTRIBUTION</h3>
+                            <div id="protocol-chart" class="protocol-chart"></div>
+
+                            <h3>TOP CONVERSATIONS</h3>
+                            <div id="conversations-list" class="conversations-list"></div>
+
+                            <h3>PACKET LIST</h3>
+                            <div class="packet-table-container">
+                                <table id="packet-table" class="packet-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>TIME</th>
+                                            <th>SOURCE</th>
+                                            <th>SRC PORT</th>
+                                            <th>DESTINATION</th>
+                                            <th>DST PORT</th>
+                                            <th>PROTOCOL</th>
+                                            <th>LENGTH</th>
+                                            <th>INFO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="packet-table-body"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Terminal Tool -->
                 <div id="terminal-tool" class="tool-panel">
                     <h2>// WEB_TERMINAL</h2>
@@ -425,6 +529,7 @@
             </div>
         </div>
     </div>
+
     </main>
     </div>
     <script src="script.js"></script>

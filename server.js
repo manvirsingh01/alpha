@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Import routers
 const virusTotalRouter = require('./routes/virustotal');
 const tempServicesRouter = require('./routes/tempservices');
+const pcapRouter = require('./routes/pcap');
 
 // Make io accessible to routes
 app.set('io', io);
@@ -25,6 +26,7 @@ app.set('io', io);
 // Mount routers
 app.use('/api/vt', virusTotalRouter);
 app.use('/api/temp', tempServicesRouter);
+app.use('/api/pcap', pcapRouter);
 
 // Route for the home page
 app.get('/', (req, res) => {

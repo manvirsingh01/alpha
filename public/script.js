@@ -14,14 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
         'encoders/base32': 'base32',
         'encoders/url': 'url',
         'encoders/hex': 'hex',
+        'encoders/hash': 'hash',
+        'generators/password': 'password',
         'hash/md5': 'md5',
         'hash/sha1': 'sha1',
         'hash/sha256': 'sha256',
         'hash/sha512': 'sha512',
-        'virustotal/file-scan': 'vt-file',
-        'virustotal/url-scan': 'vt-url',
-        'virustotal/hash-lookup': 'vt-hash',
-        'virustotal/ip-domain': 'vt-ip',
+        'scanners/virustotal-file': 'vt-file',
+        'scanners/virustotal-hash': 'vt-hash',
+        'scanners/virustotal-url': 'vt-url',
+        'scanners/virustotal-ip': 'vt-ip',
+        'network/pcap': 'pcap',
         'terminal/shell': 'terminal',
         'temp/email': 'temp-email',
         'temp/sms': 'temp-sms'
@@ -1099,4 +1102,336 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-reload-sms').addEventListener('click', () => {
         fetchSMSMessages();
     });
+
+
+    // --- PCAP Analyzer ---
+    const pcapFileInput = document.getElementById('pcap-file-input');
+    const pcapStatus = document.getElementById('pcap-status');
+    const pcapStats = document.getElementById('pcap-stats');
+
+    // Live Capture Variables
+    let livePackets = [];
+    let isCapturing = false;
+
+    // Load network interfaces
+    async function loadNetworkInterfaces() {
+        try {
+            const response = await fetch('/api/pcap/interfaces');
+            const data = await response.json();
+
+            const select = document.getElementById('network-interface');
+            select.innerHTML = '';
+
+            if (data.interfaces && data.interfaces.length > 0) {
+                let activeInterface = null;
+
+                data.interfaces.forEach(iface => {
+                    const option = document.createElement('option');
+                    option.value = iface.name;
+                    option.textContent = `${iface.name} - ${iface.description}${iface.active ? ' (Active)' : ''}`;
+                    select.appendChild(option);
+
+                    if (iface.active && !activeInterface) {
+                        activeInterface = iface.name;
+                    }
+                });
+
+                // Auto-select active interface
+                if (activeInterface) {
+                    select.value = activeInterface;
+
+                    // Auto-start capture if socket is ready
+                    if (typeof socket !== 'undefined' && socket !== null && !isCapturing) {
+                        setTimeout(() => {
+                            document.getElementById('btn-start-capture').click();
+                        }, 500);
+                    }
+                }
+            } else {
+                select.innerHTML = '<option value="">No interfaces found</option>';
+            }
+        } catch (error) {
+            console.error('Failed to load interfaces:', error);
+            document.getElementById('network-interface').innerHTML = '<option value="">Error loading interfaces</option>';
+        }
+    }
+
+    // Load interfaces on page load
+    loadNetworkInterfaces();
+
+    // Start Live Capture
+    document.getElementById('btn-start-capture').addEventListener('click', async () => {
+        const iface = document.getElementById('network-interface').value;
+        const filter = document.getElementById('capture-filter').value;
+
+        if (!iface) {
+            alert('Please select a network interface');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/pcap/capture/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ interface: iface, filter })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                isCapturing = true;
+                livePackets = [];
+                document.getElementById('btn-start-capture').disabled = true;
+                document.getElementById('btn-stop-capture').disabled = false;
+                document.getElementById('capture-indicator').classList.add('capturing');
+                pcapStats.style.display = 'block';
+
+                // Clear existing packet table
+                document.getElementById('packet-table-body').innerHTML = '';
+            } else {
+                alert('Failed to start capture: ' + (data.error || 'Unknown error'));
+            }
+        } catch (error) {
+            alert('Error starting capture: ' + error.message);
+        }
+    });
+
+    // Stop Live Capture
+    document.getElementById('btn-stop-capture').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/api/pcap/capture/stop', {
+                method: 'POST'
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                isCapturing = false;
+                document.getElementById('btn-start-capture').disabled = false;
+                document.getElementById('btn-stop-capture').disabled = true;
+                document.getElementById('capture-indicator').classList.remove('capturing');
+            }
+        } catch (error) {
+            alert('Error stopping capture: ' + error.message);
+        }
+    });
+
+    // WebSocket for live packets - only if socket is initialized
+    if (typeof socket !== 'undefined' && socket !== null) {
+        socket.on('live-packet', (packet) => {
+            if (!isCapturing) return;
+
+            livePackets.push(packet);
+
+            // Add to table
+            const tableBody = document.getElementById('packet-table-body');
+            const row = tableBody.insertRow(0); // Insert at top
+            row.className = 'packet-row live-packet-row';
+
+            let info = '';
+            if (packet.flags) info += packet.flags;
+
+            row.innerHTML = `
+                <td>${livePackets.length}</td>
+                <td>${packet.timestamp ? packet.timestamp.toFixed(6) : 'N/A'}</td>
+                <td>${packet.src || 'N/A'}</td>
+                <td>${packet.srcPort || '-'}</td>
+                <td>${packet.dst || 'N/A'}</td>
+                <td>${packet.dstPort || '-'}</td>
+                <td><span class="protocol-badge">${packet.protocol || 'Unknown'}</span></td>
+                <td>${packet.length} bytes</td>
+                <td class="packet-info">${info || '-'}</td>
+            `;
+
+            // Limit table to 100 rows
+            while (tableBody.rows.length > 100) {
+                tableBody.deleteRow(tableBody.rows.length - 1);
+            }
+        });
+
+        // Update capture stats
+        socket.on('capture-stats', (stats) => {
+            document.getElementById('live-packet-count').textContent = stats.packets.toLocaleString();
+            document.getElementById('live-byte-count').textContent = stats.bytes.toLocaleString();
+        });
+
+        // Handle capture stopped
+        socket.on('capture-stopped', (stats) => {
+            isCapturing = false;
+            document.getElementById('btn-start-capture').disabled = false;
+            document.getElementById('btn-stop-capture').disabled = true;
+            document.getElementById('capture-indicator').classList.remove('capturing');
+        });
+    } else {
+        console.warn('Socket.IO not initialized - live capture features will not work until terminal is opened');
+    }
+
+
+    document.getElementById('btn-analyze-pcap').addEventListener('click', async () => {
+        const file = pcapFileInput.files[0];
+        if (!file) {
+            pcapStatus.innerHTML = '<p style="color: #ff3333;">ERROR: NO FILE SELECTED</p>';
+            pcapStatus.style.display = 'block';
+            return;
+        }
+
+        pcapStatus.innerHTML = '<p style="color: #00ff00;">ANALYZING PCAP FILE...</p>';
+        pcapStatus.style.display = 'block';
+        pcapStats.style.display = 'none';
+
+        try {
+            const formData = new FormData();
+            formData.append('pcapFile', file);
+
+            const response = await fetch('/api/pcap/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                pcapStatus.innerHTML = `<p style="color: #ff3333;">ERROR: ${data.error}</p>`;
+                return;
+            }
+
+            pcapStatus.style.display = 'none';
+            pcapStats.style.display = 'block';
+
+            // Display statistics
+            document.getElementById('stat-packets').textContent = data.stats.totalPackets.toLocaleString();
+            document.getElementById('stat-bytes').textContent = data.stats.totalBytes.toLocaleString() + ' bytes';
+            document.getElementById('stat-avg-size').textContent = data.stats.averagePacketSize + ' bytes';
+            document.getElementById('stat-duration').textContent = data.stats.duration + 's';
+
+            // Display protocol distribution
+            const protocolChart = document.getElementById('protocol-chart');
+            protocolChart.innerHTML = '';
+            Object.entries(data.stats.protocols).forEach(([protocol, count]) => {
+                const percentage = ((count / data.stats.totalPackets) * 100).toFixed(1);
+                protocolChart.innerHTML += `
+                    <div class="protocol-bar">
+                        <div class="protocol-label">${protocol}: ${count} (${percentage}%)</div>
+                        <div class="protocol-bar-fill" style="width: ${percentage}%"></div>
+                    </div>
+                `;
+            });
+
+            // Display top conversations
+            const conversationsList = document.getElementById('conversations-list');
+            conversationsList.innerHTML = '';
+            data.stats.topConversations.forEach((conv, idx) => {
+                conversationsList.innerHTML += `
+                    <div class="conversation-item">
+                        <span class="conv-rank">${idx + 1}.</span>
+                        <span class="conv-name">${conv.conversation}</span>
+                        <span class="conv-stats">${conv.packets} packets, ${conv.bytes.toLocaleString()} bytes</span>
+                    </div>
+                `;
+            });
+
+            // Display packet table
+            const tableBody = document.getElementById('packet-table-body');
+            tableBody.innerHTML = '';
+            data.packets.forEach((packet, idx) => {
+                const row = tableBody.insertRow();
+                row.className = 'packet-row';
+                row.dataset.packetId = idx;
+
+                // Build info column
+                let info = '';
+                if (packet.flags) info += packet.flags;
+                if (packet.payloadSize !== undefined) info += ` | Payload: ${packet.payloadSize} bytes`;
+
+                row.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td>${packet.timestamp ? packet.timestamp.toFixed(6) : 'N/A'}</td>
+                    <td>${packet.src || 'N/A'}</td>
+                    <td>${packet.srcPort || '-'}</td>
+                    <td>${packet.dst || 'N/A'}</td>
+                    <td>${packet.dstPort || '-'}</td>
+                    <td><span class="protocol-badge">${packet.protocol || 'Unknown'}</span></td>
+                    <td>${packet.length} bytes</td>
+                    <td class="packet-info">${info || '-'}</td>
+                `;
+
+                // Make row clickable to show hex dump
+                row.style.cursor = 'pointer';
+                row.addEventListener('click', () => {
+                    // Check if details row already exists
+                    const nextRow = row.nextElementSibling;
+                    if (nextRow && nextRow.classList.contains('packet-details-row')) {
+                        nextRow.remove();
+                        return;
+                    }
+
+                    // Create details row
+                    const detailsRow = tableBody.insertRow(row.rowIndex);
+                    detailsRow.className = 'packet-details-row';
+                    detailsRow.innerHTML = `
+                        <td colspan="9">
+                            <div class="packet-details">
+                                <h4>Packet #${idx + 1} Details</h4>
+                                <div class="packet-detail-grid">
+                                    <div><strong>Timestamp:</strong> ${packet.timestamp}</div>
+                                    <div><strong>Total Length:</strong> ${packet.length} bytes</div>
+                                    <div><strong>Captured Length:</strong> ${packet.capturedLength} bytes</div>
+                                    ${packet.ipHeaderLength ? `<div><strong>IP Header Length:</strong> ${packet.ipHeaderLength} bytes</div>` : ''}
+                                    ${packet.payloadSize !== undefined ? `<div><strong>Payload Size:</strong> ${packet.payloadSize} bytes</div>` : ''}
+                                </div>
+                                <h4>Hex Dump (First 256 bytes)</h4>
+                                <div class="hex-dump">${formatHexDump(packet.rawData ? packet.rawData.substring(0, 512) : '')}</div>
+                            </div>
+                        </td>
+                    `;
+                });
+            });
+
+        } catch (error) {
+            console.error('PCAP Analysis Error:', error);
+            pcapStatus.innerHTML = `<p style="color: #ff3333;">ERROR: ${error.message || 'Failed to analyze PCAP file'}</p>`;
+            pcapStatus.style.display = 'block';
+            pcapStats.style.display = 'none';
+        }
+    });
+
+    // Helper function to format hex dump
+    function formatHexDump(hexString) {
+        if (!hexString) return 'No data available';
+
+        let output = '';
+        const bytesPerLine = 16;
+
+        for (let i = 0; i < hexString.length; i += bytesPerLine * 2) {
+            const offset = (i / 2).toString(16).padStart(4, '0');
+            const hexPart = hexString.substring(i, i + bytesPerLine * 2);
+
+            // Format hex bytes
+            let hexBytes = '';
+            for (let j = 0; j < hexPart.length; j += 2) {
+                hexBytes += hexPart.substring(j, j + 2) + ' ';
+                if (j === 14) hexBytes += ' '; // Extra space in middle
+            }
+            hexBytes = hexBytes.padEnd(bytesPerLine * 3 + 1, ' ');
+
+            // Format ASCII representation
+            let ascii = '';
+            for (let j = 0; j < hexPart.length; j += 2) {
+                const byte = parseInt(hexPart.substring(j, j + 2), 16);
+                ascii += (byte >= 32 && byte <= 126) ? String.fromCharCode(byte) : '.';
+            }
+
+            output += `${offset}  ${hexBytes} |${ascii}|\n`;
+        }
+
+        return output;
+    }
+
+    document.getElementById('btn-pcap-clear').addEventListener('click', () => {
+        pcapFileInput.value = '';
+        pcapStatus.style.display = 'none';
+        pcapStats.style.display = 'none';
+    });
+
+
 });

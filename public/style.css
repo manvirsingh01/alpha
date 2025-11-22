@@ -238,7 +238,7 @@ textarea:focus {
 
 .cyber-input::file-selector-button:hover {
     background-color: var(--text-color);
-    color: #000;
+    color: #001100;
 }
 
 .cyber-text-input {
@@ -579,7 +579,7 @@ textarea:focus {
 
 .cyber-btn:hover {
     background-color: var(--text-color);
-    color: #000;
+    color: #001100;
     box-shadow: 0 0 20px var(--accent-color);
 }
 
@@ -591,7 +591,7 @@ textarea:focus {
 
 .cyber-btn.warning:hover {
     background-color: #ff3333;
-    color: #000;
+    color: #110000;
     box-shadow: 0 0 20px #ff3333;
 }
 
@@ -610,4 +610,328 @@ textarea:focus {
 /* Glitch effect placeholder */
 .glitch {
     position: relative;
+}
+
+/* PCAP Analyzer Styles */
+.pcap-stats {
+    margin-top: 20px;
+    max-height: calc(100vh - 300px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.pcap-stats h3 {
+    color: var(--text-color);
+    margin: 20px 0 10px 0;
+    border-bottom: 1px solid var(--dim-color);
+    padding-bottom: 5px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-item {
+    background-color: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-label {
+    color: #00aa00;
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    color: var(--text-color);
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.protocol-chart {
+    margin: 15px 0;
+}
+
+.protocol-bar {
+    margin-bottom: 10px;
+}
+
+.protocol-label {
+    color: var(--text-color);
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.protocol-bar-fill {
+    height: 20px;
+    background: linear-gradient(90deg, #00ff00, #00aa00);
+    border: 1px solid var(--border-color);
+    transition: width 0.3s ease;
+}
+
+.conversations-list {
+    margin: 15px 0;
+}
+
+.conversation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 5px;
+    background-color: rgba(0, 255, 0, 0.03);
+}
+
+.conv-rank {
+    color: #00aa00;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.conv-name {
+    color: var(--text-color);
+    flex: 1;
+}
+
+.conv-stats {
+    color: #00aa00;
+    font-size: 0.9rem;
+}
+
+.packet-table-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 600px;
+    margin-top: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.packet-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    /* Increased font size */
+}
+
+.packet-table thead {
+    background-color: rgba(0, 255, 0, 0.15);
+    /* Slightly darker header */
+    border: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.packet-table th {
+    padding: 12px 15px;
+    /* Increased padding */
+    text-align: left;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.packet-table td {
+    padding: 10px 15px;
+    /* Increased padding */
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    white-space: nowrap;
+    /* Prevent wrapping */
+}
+
+.packet-table tbody tr:hover {
+    background-color: rgba(0, 255, 0, 0.1);
+    /* More visible hover */
+    cursor: pointer;
+}
+
+.protocol-badge {
+    background-color: rgba(0, 255, 0, 0.2);
+    padding: 3px 8px;
+    border-radius: 3px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+/* Custom Scrollbar for PCAP Stats */
+.pcap-stats::-webkit-scrollbar {
+    width: 10px;
+}
+
+.pcap-stats::-webkit-scrollbar-track {
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.pcap-stats::-webkit-scrollbar-thumb {
+    background: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.pcap-stats::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Packet Details Expandable Rows */
+.packet-row {
+    transition: background-color 0.2s;
+}
+
+.packet-row:hover {
+    background-color: rgba(0, 255, 0, 0.1) !important;
+}
+
+.packet-details-row {
+    background-color: rgba(0, 255, 0, 0.03);
+}
+
+.packet-details {
+    padding: 15px;
+    border-left: 3px solid var(--border-color);
+}
+
+.packet-details h4 {
+    color: var(--text-color);
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.packet-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.packet-detail-grid div {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.packet-detail-grid strong {
+    color: #00aa00;
+}
+
+.hex-dump {
+    background-color: #000;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #00ff00;
+    overflow-x: auto;
+    white-space: pre;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.packet-info {
+    font-size: 0.85rem;
+    color: #00aa00;
+}
+
+/* Live Capture Styles */
+.capture-section {
+    background-color: rgba(0, 255, 0, 0.03);
+    border: 1px solid var(--border-color);
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.capture-section h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.cyber-select {
+    width: 100%;
+    background-color: #000;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 10px;
+    font-family: var(--font-main);
+    font-size: 1rem;
+}
+
+.cyber-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px var(--accent-color);
+}
+
+.capture-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #333;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+
+.capture-indicator.capturing {
+    background-color: #ff3333;
+    box-shadow: 0 0 10px #ff3333;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.live-stats {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--border-color);
+    display: flex;
+    gap: 20px;
+}
+
+.live-stats span {
+    color: #00aa00;
+}
+
+.live-stats strong {
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.live-packet-row {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        background-color: rgba(0, 255, 0, 0.2);
+    }
+
+    to {
+        background-color: transparent;
+    }
 }
