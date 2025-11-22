@@ -959,3 +959,36 @@ textarea:focus {
         background-color: transparent;
     }
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    main {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--dim-color);
+        max-height: none;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    #terminal-container {
+        height: 60vh;
+    }
+
+    .cyber-btn,
+    .cyber-input,
+    .cyber-text-input,
+    .cyber-select {
+        width: 100%;
+    }
+}
