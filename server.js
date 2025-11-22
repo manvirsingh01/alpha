@@ -2,12 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const http = require('http');
-const { Server } = require('socket.io');
 const os = require('os');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
 const port = 3000;
 
 // Middleware
@@ -19,9 +17,6 @@ const virusTotalRouter = require('./routes/virustotal');
 const tempServicesRouter = require('./routes/tempservices');
 const pcapRouter = require('./routes/pcap');
 
-// Make io accessible to routes
-app.set('io', io);
-
 // Mount routers
 app.use('/api/vt', virusTotalRouter);
 app.use('/api/temp', tempServicesRouter);
@@ -32,9 +27,15 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// WebSocket for terminal - ONLY if not on Vercel
+// WebSocket and Terminal - ONLY if not on Vercel
 if (!process.env.VERCEL) {
   try {
+    const { Server } = require('socket.io');
+    const io = new Server(server);
+
+    // Make io accessible to routes
+    app.set('io', io);
+
     const pty = require('node-pty');
     const terminals = {};
     const logs = {};
@@ -105,10 +106,16 @@ if (!process.env.VERCEL) {
       });
     });
   } catch (err) {
-    console.warn('node-pty not available, terminal features disabled');
+    console.warn('WebSocket or node-pty not available:', err.message);
+    // Mock io for routes if initialization failed
+    app.set('io', { emit: () => { } });
   }
+} else {
+  // Mock io for Vercel to prevent crashes in routes
+  app.set('io', { emit: () => { } });
 }
 
+// Start server
 if (require.main === module) {
   server.listen(port, () => {
     console.log(`Cyber Security Tools Portal listening at http://localhost:${port}`);
