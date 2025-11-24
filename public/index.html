@@ -16,11 +16,11 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-7J8CRJGDS7"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-7J8CRJGDS7');
+    gtag('config', 'G-7J8CRJGDS7');
 </script>
 
 <body>
@@ -541,6 +541,21 @@
 
     </main>
     </div>
+    <!-- Username Modal -->
+    <div id="username-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>// INITIALIZE_USER</h2>
+            <div class="input-group">
+                <label for="username-input">ENTER_CODENAME:</label>
+                <input type="text" id="username-input" class="cyber-text-input" placeholder="CODENAME..."
+                    autocomplete="off">
+            </div>
+            <div class="controls">
+                <button id="btn-save-username" class="cyber-btn">INITIALIZE >></button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 

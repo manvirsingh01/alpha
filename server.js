@@ -75,8 +75,42 @@ if (!process.env.VERCEL) {
     // Make io accessible to routes (e.g. for PCAP streaming)
     app.set('io', io);
 
+    // Import node-pty
+    const pty = require('node-pty');
+
     io.on('connection', (socket) => {
       console.log('Client connected');
+
+      const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+
+      const ptyProcess = pty.spawn(shell, [], {
+        name: 'xterm-color',
+        cols: 80,
+        rows: 24,
+        cwd: process.env.HOME,
+        env: process.env
+      });
+
+      // Send data from pty to client
+      ptyProcess.on('data', (data) => {
+        socket.emit('output', data);
+      });
+
+      // Receive data from client to pty
+      socket.on('input', (data) => {
+        ptyProcess.write(data);
+      });
+
+      // Handle resize
+      socket.on('resize', (size) => {
+        ptyProcess.resize(size.cols, size.rows);
+      });
+
+      // Cleanup on disconnect
+      socket.on('disconnect', () => {
+        console.log('Client disconnected');
+        ptyProcess.kill();
+      });
     });
   } catch (err) {
     console.warn('WebSocket initialization failed:', err.message);
