@@ -31,6 +31,7 @@
             <div class="status-bar">
                 <span>SYSTEM: ONLINE</span>
                 <span>USER: ANONYMOUS</span>
+                <span id="server-status">SERVER: LOCAL</span>
                 <span id="clock">00:00:00</span>
             </div>
             <div class="breadcrumb" id="breadcrumb">
@@ -576,6 +577,7 @@
             <h2>// SELECT_TERMINAL_MODE</h2>
             <div class="controls" style="flex-direction: column; gap: 15px;">
                 <button id="btn-mode-simulated" class="cyber-btn">SIMULATED (SAFE)</button>
+                <button id="btn-mode-localhost" class="cyber-btn">LOCAL HOST (LOCALHOST:3000)</button>
                 <button id="btn-mode-real" class="cyber-btn warning">REAL-TIME (EXPERIMENTAL)</button>
             </div>
         </div>

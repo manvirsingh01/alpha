@@ -8,6 +8,27 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateClock, 1000);
     updateClock();
 
+    // Server status functionality
+    function updateServerStatus() {
+        const remoteUrl = localStorage.getItem('cyber_remote_url') || '';
+        const serverStatus = document.getElementById('server-status');
+        if (remoteUrl) {
+            // Extract hostname/IP from URL
+            try {
+                const url = new URL(remoteUrl);
+                serverStatus.textContent = `SERVER: ${url.hostname}:${url.port || '3000'}`;
+                serverStatus.style.color = '#00aaff'; // Blue for remote
+            } catch (e) {
+                serverStatus.textContent = `SERVER: REMOTE`;
+                serverStatus.style.color = '#00aaff';
+            }
+        } else {
+            serverStatus.textContent = 'SERVER: LOCAL';
+            serverStatus.style.color = '#00ff00'; // Green for local
+        }
+    }
+    updateServerStatus();
+
     // Route to tool ID mapping
     const routeMap = {
         'encoders/base64': 'base64',
@@ -816,12 +837,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.addEventListener('resize', () => {
             fitAddon.fit();
-            if (terminalMode === 'real' && socket) {
+            if ((terminalMode === 'real' || terminalMode === 'localhost') && socket) {
                 socket.emit('resize', { cols: terminalInstance.cols, rows: terminalInstance.rows });
             }
         });
 
-        if (terminalMode === 'real') {
+        if (terminalMode === 'localhost') {
+            // Local host mode - connect to localhost:3000
+            terminalInstance.writeln('\x1b[1;32m╔═══════════════════════════════════════════════════════════╗\x1b[0m');
+            terminalInstance.writeln('\x1b[1;32m║         LOCAL HOST TERMINAL (LOCALHOST:3000)             ║\x1b[0m');
+            terminalInstance.writeln('\x1b[1;32m╚═══════════════════════════════════════════════════════════╝\x1b[0m');
+            terminalInstance.writeln('');
+
+            // Connect to localhost explicitly
+            if (!socket) socket = io('http://localhost:3000');
+
+            // Forward input to server
+            terminalInstance.onData(data => {
+                if (socket) {
+                    socket.emit('input', data);
+                }
+            });
+
+            // Receive output from server
+            socket.on('output', data => {
+                terminalInstance.write(data);
+            });
+
+            // Initial resize
+            socket.emit('resize', { cols: terminalInstance.cols, rows: terminalInstance.rows });
+
+        } else if (terminalMode === 'real') {
             // Real-time mode
             terminalInstance.writeln('\x1b[1;32m╔═══════════════════════════════════════════════════════════╗\x1b[0m');
             terminalInstance.writeln('\x1b[1;32m║         REAL-TIME TERMINAL (EXPERIMENTAL)                ║\x1b[0m');
@@ -1125,6 +1171,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('btn-mode-simulated').onclick = () => {
                     modeModal.classList.remove('active');
                     setTimeout(() => initializeTerminal('simulated'), 100);
+                };
+
+                document.getElementById('btn-mode-localhost').onclick = () => {
+                    modeModal.classList.remove('active');
+                    setTimeout(() => initializeTerminal('localhost'), 100);
                 };
 
                 document.getElementById('btn-mode-real').onclick = () => {
