@@ -2508,4 +2508,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     console.log('Kali tools initialization complete');
 
+    // Event delegation for Kali tool COPY and TRY buttons (static HTML)
+    document.addEventListener('click', function(e) {
+        // Handle COPY buttons
+        if (e.target.classList.contains('copy-btn') && e.target.dataset.copy) {
+            const text = e.target.dataset.copy;
+            navigator.clipboard.writeText(text).then(() => {
+                const origText = e.target.textContent;
+                e.target.textContent = 'COPIED!';
+                setTimeout(() => e.target.textContent = origText, 1000);
+            });
+        }
+        
+        // Handle TRY buttons
+        if (e.target.classList.contains('try-btn') && e.target.dataset.cmd) {
+            const cmd = e.target.dataset.cmd;
+            tryInTerminal(cmd);
+        }
+        
+        // Handle Kali tool card clicks
+        if (e.target.closest('.kali-tool-card')) {
+            const card = e.target.closest('.kali-tool-card');
+            const route = card.dataset.route;
+            if (route) {
+                navigateTo(route);
+            }
+        }
+    });
+
 });
