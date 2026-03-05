@@ -2389,9 +2389,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderKaliToolDetail(toolId) {
         const tool = kaliTools[toolId];
         const panel = document.getElementById(`kali-${toolId}-tool`);
-        if (!tool || !panel) return;
+        if (!tool || !panel) {
+            console.error('Kali tool render failed:', toolId, 'tool:', !!tool, 'panel:', !!panel);
+            return;
+        }
 
-        panel.innerHTML = `
+        try {
+            panel.innerHTML = `
             <h2>// ${tool.name.toUpperCase()}</h2>
             <div class="tool-interface">
                 <div class="kali-tool-header">
@@ -2437,30 +2441,33 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
-        // Add copy button handlers
-        panel.querySelectorAll('.copy-install-btn, .copy-cmd-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.dataset.target;
-                const targetEl = document.getElementById(targetId);
-                if (targetEl) {
-                    navigator.clipboard.writeText(targetEl.textContent);
-                    const origText = btn.textContent;
-                    btn.textContent = 'COPIED!';
-                    setTimeout(() => btn.textContent = origText, 1000);
-                }
+            // Add copy button handlers
+            panel.querySelectorAll('.copy-install-btn, .copy-cmd-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.target;
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        navigator.clipboard.writeText(targetEl.textContent);
+                        const origText = btn.textContent;
+                        btn.textContent = 'COPIED!';
+                        setTimeout(() => btn.textContent = origText, 1000);
+                    }
+                });
             });
-        });
 
-        // Add TRY IN TERMINAL handlers
-        panel.querySelectorAll('.try-terminal').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const targetId = btn.dataset.target;
-                const targetEl = document.getElementById(targetId);
-                if (targetEl) {
-                    tryInTerminal(targetEl.textContent);
-                }
+            // Add TRY IN TERMINAL handlers
+            panel.querySelectorAll('.try-terminal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.dataset.target;
+                    const targetEl = document.getElementById(targetId);
+                    if (targetEl) {
+                        tryInTerminal(targetEl.textContent);
+                    }
+                });
             });
-        });
+        } catch (err) {
+            console.error('Error rendering kali tool:', toolId, err);
+        }
     }
 
     // Helper: escape HTML
@@ -2493,9 +2500,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize Kali tools pages
+    console.log('Initializing Kali tools, count:', Object.keys(kaliTools).length);
     renderKaliToolsGrid();
     Object.keys(kaliTools).forEach(toolId => {
+        console.log('Rendering:', toolId);
         renderKaliToolDetail(toolId);
     });
+    console.log('Kali tools initialization complete');
 
 });
