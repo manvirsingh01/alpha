@@ -1594,6 +1594,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         prompt();
                 }
             }
+
+            // Check for pending command from TRY button (after handleCommand is defined)
+            const pendingCmd = localStorage.getItem('cyber_terminal_cmd');
+            if (pendingCmd) {
+                localStorage.removeItem('cyber_terminal_cmd');
+                setTimeout(() => {
+                    // Display the command being typed
+                    terminalInstance.write(pendingCmd);
+                    terminalInstance.write('\r\n');
+                    // Execute the command
+                    handleCommand(pendingCmd);
+                }, 500);
+            }
         }
         terminalInitialized = true;
     }
@@ -2936,12 +2949,9 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             e.stopPropagation();
             const cmd = tryBtn.dataset.cmd;
-            // Store command and navigate to terminal
+            // Store command and navigate to terminal - it will auto-execute
             localStorage.setItem('cyber_terminal_cmd', cmd);
             navigateTo('terminal/shell');
-            setTimeout(() => {
-                alert('Command ready! Paste it in the terminal:\n\n' + cmd);
-            }, 500);
             return;
         }
         
