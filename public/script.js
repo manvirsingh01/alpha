@@ -2403,8 +2403,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="kali-install">
                         <label>INSTALLATION:</label>
-                        <code>${tool.installation}</code>
-                        <button class="cyber-btn small" onclick="copyToClipboard('${tool.installation}')">COPY</button>
+                        <code id="install-${toolId}">${tool.installation}</code>
+                        <button class="cyber-btn small copy-install-btn" data-target="install-${toolId}">COPY</button>
                     </div>
                 </div>
 
@@ -2424,10 +2424,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <tr>
                                     <td><code>${escapeHtml(cmd.cmd)}</code></td>
                                     <td>${cmd.desc}</td>
-                                    <td><code class="example">${escapeHtml(cmd.example)}</code></td>
+                                    <td><code class="example" id="cmd-${toolId}-${idx}">${escapeHtml(cmd.example)}</code></td>
                                     <td class="actions">
-                                        <button class="cyber-btn small" onclick="copyToClipboard('${escapeJs(cmd.example)}')">COPY</button>
-                                        <button class="cyber-btn small try-terminal" data-cmd="${escapeHtml(cmd.example)}">TRY</button>
+                                        <button class="cyber-btn small copy-cmd-btn" data-target="cmd-${toolId}-${idx}">COPY</button>
+                                        <button class="cyber-btn small try-terminal" data-target="cmd-${toolId}-${idx}">TRY</button>
                                     </td>
                                 </tr>
                             `).join('')}
@@ -2437,11 +2437,28 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
 
+        // Add copy button handlers
+        panel.querySelectorAll('.copy-install-btn, .copy-cmd-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    navigator.clipboard.writeText(targetEl.textContent);
+                    const origText = btn.textContent;
+                    btn.textContent = 'COPIED!';
+                    setTimeout(() => btn.textContent = origText, 1000);
+                }
+            });
+        });
+
         // Add TRY IN TERMINAL handlers
         panel.querySelectorAll('.try-terminal').forEach(btn => {
             btn.addEventListener('click', () => {
-                const cmd = btn.dataset.cmd;
-                tryInTerminal(cmd);
+                const targetId = btn.dataset.target;
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    tryInTerminal(targetEl.textContent);
+                }
             });
         });
     }
