@@ -1541,3 +1541,164 @@ textarea:focus {
     background: rgba(0, 170, 255, 0.4);
     box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
 }
+
+/* Terminal Tabs */
+.terminal-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #00ff00;
+    padding-bottom: 10px;
+}
+
+.terminal-tab {
+    background: transparent;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 8px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.terminal-tab:hover {
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.terminal-tab.active {
+    background: #00ff00;
+    color: #000;
+}
+
+/* Terminal Settings */
+.terminal-settings {
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid #333;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.settings-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00ff00;
+}
+
+.settings-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* SSH Form */
+.ssh-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ssh-row {
+    display: flex;
+    gap: 15px;
+}
+
+.ssh-field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ssh-field.small {
+    flex: 0 0 100px;
+}
+
+.ssh-field.full {
+    flex: 1 1 100%;
+}
+
+.ssh-field label {
+    color: #00ff00;
+    font-size: 12px;
+}
+
+.cyber-input {
+    background: #000;
+    border: 1px solid #00ff00;
+    color: #00ff00;
+    padding: 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+}
+
+.cyber-input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.cyber-input::placeholder {
+    color: #006600;
+}
+
+.ssh-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ssh-status {
+    padding: 10px;
+    font-size: 12px;
+    min-height: 20px;
+}
+
+.ssh-status.error {
+    color: #ff4444;
+}
+
+.ssh-status.success {
+    color: #00ff00;
+}
+
+.ssh-status.connecting {
+    color: #ffaa00;
+}
+
+.cyber-btn.primary {
+    background: #00ff00;
+    color: #000;
+}
+
+.cyber-btn.primary:hover {
+    background: #00cc00;
+}
+
+/* Connection Indicator */
+.connection-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #666;
+    display: inline-block;
+}
+
+.connection-indicator.connected {
+    background: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+.connection-indicator.connecting {
+    background: #ffaa00;
+    animation: blink 1s infinite;
+}
+
+.connection-indicator.error {
+    background: #ff4444;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}

@@ -1702,26 +1702,230 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initialize terminal when navigating to it
         if (route === 'terminal/shell') {
             if (!terminalInitialized) {
-                const modeModal = document.getElementById('terminal-mode-modal');
-                modeModal.classList.add('active');
-
-                document.getElementById('btn-mode-simulated').onclick = () => {
-                    modeModal.classList.remove('active');
-                    setTimeout(() => initializeTerminal('simulated'), 100);
-                };
-
-                document.getElementById('btn-mode-localhost').onclick = () => {
-                    modeModal.classList.remove('active');
-                    setTimeout(() => initializeTerminal('localhost'), 100);
-                };
-
-                document.getElementById('btn-mode-real').onclick = () => {
-                    modeModal.classList.remove('active');
-                    setTimeout(() => initializeTerminal('real'), 100);
-                };
+                // Initialize with simulated mode by default
+                setTimeout(() => initializeTerminal('simulated'), 100);
             }
+            // Setup terminal tab handlers
+            setupTerminalTabs();
         }
     };
+
+    // Setup terminal mode tabs
+    function setupTerminalTabs() {
+        const tabs = document.querySelectorAll('.terminal-tab');
+        tabs.forEach(tab => {
+            tab.onclick = () => {
+                const mode = tab.dataset.mode;
+                
+                // Update active tab
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show correct settings
+                document.querySelectorAll('.terminal-settings').forEach(s => s.style.display = 'none');
+                const settingsPanel = document.getElementById('settings-' + mode);
+                if (settingsPanel) settingsPanel.style.display = 'block';
+                
+                // If switching to simulated mode
+                if (mode === 'simulated' && terminalMode !== 'simulated') {
+                    if (socket) {
+                        socket.emit('disconnect-ssh');
+                    }
+                    // Reset terminal for simulated mode
+                    resetTerminal('simulated');
+                }
+            };
+        });
+        
+        // Setup local shell connect button
+        document.getElementById('btn-connect-local').onclick = () => {
+            const indicator = document.getElementById('local-connection-indicator');
+            indicator.className = 'connection-indicator connecting';
+            
+            if (!socket) socket = io('http://localhost:3000');
+            socket.emit('connect-local');
+            
+            socket.on('connected', (info) => {
+                if (info.type === 'local') {
+                    indicator.className = 'connection-indicator connected';
+                    resetTerminal('local');
+                }
+            });
+        };
+        
+        // Setup SSH handlers
+        setupSSHHandlers();
+    }
+    
+    // SSH connection handlers
+    function setupSSHHandlers() {
+        const btnConnect = document.getElementById('btn-ssh-connect');
+        const btnDisconnect = document.getElementById('btn-ssh-disconnect');
+        const btnSave = document.getElementById('btn-ssh-save');
+        const btnLoad = document.getElementById('btn-ssh-load');
+        const statusEl = document.getElementById('ssh-status');
+        
+        if (!btnConnect) return;
+        
+        btnConnect.onclick = () => {
+            const host = document.getElementById('ssh-host').value;
+            const port = document.getElementById('ssh-port').value || 22;
+            const username = document.getElementById('ssh-username').value;
+            const password = document.getElementById('ssh-password').value;
+            const privateKey = document.getElementById('ssh-privatekey').value;
+            
+            if (!host || !username) {
+                statusEl.textContent = 'Error: Host and Username are required';
+                statusEl.className = 'ssh-status error';
+                return;
+            }
+            
+            if (!password && !privateKey) {
+                statusEl.textContent = 'Error: Password or Private Key is required';
+                statusEl.className = 'ssh-status error';
+                return;
+            }
+            
+            statusEl.textContent = 'Connecting...';
+            statusEl.className = 'ssh-status connecting';
+            
+            if (!socket) socket = io('http://localhost:3000');
+            
+            // Remove old listeners
+            socket.off('connected');
+            socket.off('output');
+            socket.off('ssh-error');
+            socket.off('disconnected');
+            
+            socket.emit('connect-ssh', {
+                host,
+                port: parseInt(port),
+                username,
+                password: password || undefined,
+                privateKey: privateKey || undefined
+            });
+            
+            socket.on('connected', (info) => {
+                if (info.type === 'ssh') {
+                    statusEl.textContent = 'Connected to ' + info.host;
+                    statusEl.className = 'ssh-status success';
+                    btnConnect.style.display = 'none';
+                    btnDisconnect.style.display = 'inline-block';
+                    resetTerminal('ssh');
+                }
+            });
+            
+            socket.on('output', (data) => {
+                if (terminalInstance) {
+                    terminalInstance.write(data);
+                }
+            });
+            
+            socket.on('ssh-error', (err) => {
+                statusEl.textContent = 'Error: ' + err.message;
+                statusEl.className = 'ssh-status error';
+            });
+            
+            socket.on('disconnected', () => {
+                statusEl.textContent = 'Disconnected';
+                statusEl.className = 'ssh-status';
+                btnConnect.style.display = 'inline-block';
+                btnDisconnect.style.display = 'none';
+            });
+        };
+        
+        btnDisconnect.onclick = () => {
+            if (socket) {
+                socket.emit('disconnect-ssh');
+            }
+            statusEl.textContent = 'Disconnected';
+            statusEl.className = 'ssh-status';
+            btnConnect.style.display = 'inline-block';
+            btnDisconnect.style.display = 'none';
+        };
+        
+        btnSave.onclick = () => {
+            const settings = {
+                host: document.getElementById('ssh-host').value,
+                port: document.getElementById('ssh-port').value,
+                username: document.getElementById('ssh-username').value
+            };
+            localStorage.setItem('ssh_settings', JSON.stringify(settings));
+            statusEl.textContent = 'Settings saved (password not saved for security)';
+            statusEl.className = 'ssh-status success';
+        };
+        
+        btnLoad.onclick = () => {
+            const saved = localStorage.getItem('ssh_settings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('ssh-host').value = settings.host || '';
+                document.getElementById('ssh-port').value = settings.port || 22;
+                document.getElementById('ssh-username').value = settings.username || '';
+                statusEl.textContent = 'Settings loaded';
+                statusEl.className = 'ssh-status success';
+            } else {
+                statusEl.textContent = 'No saved settings found';
+                statusEl.className = 'ssh-status';
+            }
+        };
+    }
+    
+    // Reset terminal for new mode
+    function resetTerminal(mode) {
+        terminalMode = mode;
+        
+        if (terminalInstance) {
+            terminalInstance.clear();
+            
+            if (mode === 'ssh') {
+                terminalInstance.writeln('\x1b[1;32m╔═══════════════════════════════════════════════════════════╗\x1b[0m');
+                terminalInstance.writeln('\x1b[1;32m║         SSH TERMINAL - REMOTE CONNECTION                 ║\x1b[0m');
+                terminalInstance.writeln('\x1b[1;32m╚═══════════════════════════════════════════════════════════╝\x1b[0m');
+                terminalInstance.writeln('');
+                
+                // Forward terminal input to SSH
+                terminalInstance.onData(data => {
+                    if (socket) {
+                        socket.emit('input', data);
+                    }
+                });
+                
+            } else if (mode === 'local') {
+                terminalInstance.writeln('\x1b[1;32m╔═══════════════════════════════════════════════════════════╗\x1b[0m');
+                terminalInstance.writeln('\x1b[1;32m║         LOCAL SHELL - LOCALHOST                          ║\x1b[0m');
+                terminalInstance.writeln('\x1b[1;32m╚═══════════════════════════════════════════════════════════╝\x1b[0m');
+                terminalInstance.writeln('');
+                
+                // Forward terminal input to local shell
+                terminalInstance.onData(data => {
+                    if (socket) {
+                        socket.emit('input', data);
+                    }
+                });
+                
+                // Listen for output
+                socket.off('output');
+                socket.on('output', (data) => {
+                    terminalInstance.write(data);
+                });
+                
+            } else {
+                terminalInstance.writeln('\x1b[1;32m╔═══════════════════════════════════════════════════════════╗\x1b[0m');
+                terminalInstance.writeln('\x1b[1;32m║         SIMULATED TERMINAL - SAFE MODE                   ║\x1b[0m');
+                terminalInstance.writeln('\x1b[1;32m╚═══════════════════════════════════════════════════════════╝\x1b[0m');
+                terminalInstance.writeln('');
+                terminalInstance.writeln('Type "help" for available commands.');
+                terminalInstance.write(`\r\nroot@kali:${currentCwd}# `);
+            }
+            
+            // Send resize
+            if (socket && (mode === 'ssh' || mode === 'local')) {
+                socket.emit('resize', { cols: terminalInstance.cols, rows: terminalInstance.rows });
+            }
+        }
+    }
+
     let currentEmailId = null;
     const btnStartCapture = document.getElementById('btn-start-capture');
     const btnStopCapture = document.getElementById('btn-stop-capture');

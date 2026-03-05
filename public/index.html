@@ -517,29 +517,71 @@
                 <div id="terminal-tool" class="tool-panel">
                     <h2>// WEB_TERMINAL</h2>
                     <div class="tool-interface">
-                        <!-- Server Selector -->
-                        <div class="server-selector">
-                            <label>
-                                <span class="connection-indicator" id="terminal-connection-indicator"></span>
-                                TERMINAL SERVER:
-                            </label>
-                            <div class="server-selector-row">
-                                <select id="terminal-server-select" class="cyber-select">
-                                    <option value="local">Local (localhost:3000)</option>
-                                    <option value="default">Default Remote</option>
-                                    <option value="custom">Custom...</option>
-                                </select>
+                        <!-- Connection Mode Tabs -->
+                        <div class="terminal-tabs">
+                            <button class="terminal-tab active" data-mode="simulated">SIMULATED</button>
+                            <button class="terminal-tab" data-mode="local">LOCAL SHELL</button>
+                            <button class="terminal-tab" data-mode="ssh">SSH CONNECTION</button>
+                        </div>
+
+                        <!-- Simulated Mode Settings -->
+                        <div class="terminal-settings" id="settings-simulated">
+                            <div class="settings-info">
+                                <span class="connection-indicator connected"></span>
+                                <span>Safe simulated environment - commands are emulated, not executed</span>
                             </div>
-                            <div class="custom-url-input" id="terminal-custom-url">
-                                <input type="text" id="terminal-custom-url-input" class="cyber-text-input"
-                                    placeholder="http://<IP>:3000">
-                                <button id="btn-terminal-connect-custom" class="cyber-btn">CONNECT</button>
+                        </div>
+
+                        <!-- Local Shell Settings -->
+                        <div class="terminal-settings" id="settings-local" style="display:none;">
+                            <div class="settings-row">
+                                <span class="connection-indicator" id="local-connection-indicator"></span>
+                                <span>Connects to local server shell (requires server running)</span>
+                                <button id="btn-connect-local" class="cyber-btn">CONNECT</button>
+                            </div>
+                        </div>
+
+                        <!-- SSH Settings -->
+                        <div class="terminal-settings" id="settings-ssh" style="display:none;">
+                            <div class="ssh-form">
+                                <div class="ssh-row">
+                                    <div class="ssh-field">
+                                        <label>HOST:</label>
+                                        <input type="text" id="ssh-host" class="cyber-input" placeholder="192.168.1.100">
+                                    </div>
+                                    <div class="ssh-field small">
+                                        <label>PORT:</label>
+                                        <input type="number" id="ssh-port" class="cyber-input" value="22" placeholder="22">
+                                    </div>
+                                </div>
+                                <div class="ssh-row">
+                                    <div class="ssh-field">
+                                        <label>USERNAME:</label>
+                                        <input type="text" id="ssh-username" class="cyber-input" placeholder="root">
+                                    </div>
+                                    <div class="ssh-field">
+                                        <label>PASSWORD:</label>
+                                        <input type="password" id="ssh-password" class="cyber-input" placeholder="••••••••">
+                                    </div>
+                                </div>
+                                <div class="ssh-row">
+                                    <div class="ssh-field full">
+                                        <label>PRIVATE KEY (optional - paste key content):</label>
+                                        <textarea id="ssh-privatekey" class="cyber-input" rows="3" placeholder="-----BEGIN RSA PRIVATE KEY-----"></textarea>
+                                    </div>
+                                </div>
+                                <div class="ssh-actions">
+                                    <button id="btn-ssh-connect" class="cyber-btn primary">CONNECT SSH</button>
+                                    <button id="btn-ssh-disconnect" class="cyber-btn warning" style="display:none;">DISCONNECT</button>
+                                    <button id="btn-ssh-save" class="cyber-btn">SAVE SETTINGS</button>
+                                    <button id="btn-ssh-load" class="cyber-btn">LOAD SAVED</button>
+                                </div>
+                                <div class="ssh-status" id="ssh-status"></div>
                             </div>
                         </div>
 
                         <div class="terminal-warning">
-                            <strong>⚠️ WARNING:</strong> This terminal executes real commands on your system. Use with
-                            caution!
+                            <strong>⚠️ WARNING:</strong> SSH and Local modes execute real commands. Use with caution!
                         </div>
                         <div id="terminal-container"></div>
                     </div>

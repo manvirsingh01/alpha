@@ -89,35 +89,151 @@ if (!process.env.VERCEL) {
     io.on('connection', (socket) => {
       console.log('Client connected');
 
-      const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+      let currentProcess = null;
+      let sshClient = null;
+      let sshStream = null;
 
-      const ptyProcess = pty.spawn(shell, [], {
-        name: 'xterm-color',
-        cols: 80,
-        rows: 24,
-        cwd: process.env.HOME,
-        env: process.env
+      // Handle local shell connection
+      socket.on('connect-local', () => {
+        if (currentProcess) {
+          currentProcess.kill();
+          currentProcess = null;
+        }
+        if (sshClient) {
+          sshClient.end();
+          sshClient = null;
+        }
+
+        const shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+        currentProcess = pty.spawn(shell, [], {
+          name: 'xterm-color',
+          cols: 80,
+          rows: 24,
+          cwd: process.env.HOME,
+          env: process.env
+        });
+
+        currentProcess.on('data', (data) => {
+          socket.emit('output', data);
+        });
+
+        socket.emit('connected', { type: 'local' });
       });
 
-      // Send data from pty to client
-      ptyProcess.on('data', (data) => {
-        socket.emit('output', data);
+      // Handle SSH connection
+      socket.on('connect-ssh', (config) => {
+        console.log('SSH connection request:', config.host, config.username);
+        
+        if (currentProcess) {
+          currentProcess.kill();
+          currentProcess = null;
+        }
+        if (sshClient) {
+          sshClient.end();
+          sshClient = null;
+        }
+
+        const { Client } = require('ssh2');
+        sshClient = new Client();
+
+        sshClient.on('ready', () => {
+          console.log('SSH connection established');
+          socket.emit('output', '\x1b[1;32mSSH Connection Established!\x1b[0m\r\n');
+          
+          sshClient.shell({ term: 'xterm-color', cols: 80, rows: 24 }, (err, stream) => {
+            if (err) {
+              socket.emit('output', `\x1b[1;31mShell error: ${err.message}\x1b[0m\r\n`);
+              return;
+            }
+            
+            sshStream = stream;
+            socket.emit('connected', { type: 'ssh', host: config.host });
+
+            stream.on('data', (data) => {
+              socket.emit('output', data.toString());
+            });
+
+            stream.stderr.on('data', (data) => {
+              socket.emit('output', data.toString());
+            });
+
+            stream.on('close', () => {
+              socket.emit('output', '\r\n\x1b[1;33mSSH Connection Closed\x1b[0m\r\n');
+              socket.emit('disconnected');
+              sshClient.end();
+              sshClient = null;
+              sshStream = null;
+            });
+          });
+        });
+
+        sshClient.on('error', (err) => {
+          console.error('SSH error:', err.message);
+          socket.emit('output', `\x1b[1;31mSSH Error: ${err.message}\x1b[0m\r\n`);
+          socket.emit('ssh-error', { message: err.message });
+        });
+
+        // Build connection config
+        const sshConfig = {
+          host: config.host,
+          port: config.port || 22,
+          username: config.username,
+          readyTimeout: 10000
+        };
+
+        if (config.password) {
+          sshConfig.password = config.password;
+        }
+        if (config.privateKey) {
+          sshConfig.privateKey = config.privateKey;
+        }
+
+        socket.emit('output', `\x1b[1;33mConnecting to ${config.host}:${config.port || 22}...\x1b[0m\r\n`);
+        
+        try {
+          sshClient.connect(sshConfig);
+        } catch (err) {
+          socket.emit('output', `\x1b[1;31mConnection failed: ${err.message}\x1b[0m\r\n`);
+        }
       });
 
-      // Receive data from client to pty
+      // Handle input
       socket.on('input', (data) => {
-        ptyProcess.write(data);
+        if (sshStream) {
+          sshStream.write(data);
+        } else if (currentProcess) {
+          currentProcess.write(data);
+        }
       });
 
       // Handle resize
       socket.on('resize', (size) => {
-        ptyProcess.resize(size.cols, size.rows);
+        if (sshStream) {
+          sshStream.setWindow(size.rows, size.cols, 480, 640);
+        }
+        if (currentProcess) {
+          currentProcess.resize(size.cols, size.rows);
+        }
       });
 
-      // Cleanup on disconnect
+      // Handle disconnect SSH
+      socket.on('disconnect-ssh', () => {
+        if (sshClient) {
+          sshClient.end();
+          sshClient = null;
+          sshStream = null;
+        }
+      });
+
+      // Cleanup on socket disconnect
       socket.on('disconnect', () => {
         console.log('Client disconnected');
-        ptyProcess.kill();
+        if (currentProcess) {
+          currentProcess.kill();
+        }
+        if (sshClient) {
+          sshClient.end();
+        }
       });
     });
   } catch (err) {
