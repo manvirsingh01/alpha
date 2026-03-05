@@ -2509,30 +2509,51 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Kali tools initialization complete');
 
     // Event delegation for Kali tool COPY and TRY buttons (static HTML)
-    document.addEventListener('click', function(e) {
+    document.body.addEventListener('click', function(e) {
         // Handle COPY buttons
-        if (e.target.classList.contains('copy-btn') && e.target.dataset.copy) {
-            const text = e.target.dataset.copy;
+        const copyBtn = e.target.closest('.copy-btn');
+        if (copyBtn && copyBtn.dataset.copy) {
+            e.preventDefault();
+            e.stopPropagation();
+            const text = copyBtn.dataset.copy;
             navigator.clipboard.writeText(text).then(() => {
-                const origText = e.target.textContent;
-                e.target.textContent = 'COPIED!';
-                setTimeout(() => e.target.textContent = origText, 1000);
+                const origText = copyBtn.textContent;
+                copyBtn.textContent = 'COPIED!';
+                copyBtn.style.background = '#00ff00';
+                copyBtn.style.color = '#000';
+                setTimeout(() => {
+                    copyBtn.textContent = origText;
+                    copyBtn.style.background = '';
+                    copyBtn.style.color = '';
+                }, 1000);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                alert('Copy failed. Command: ' + text);
             });
+            return;
         }
         
         // Handle TRY buttons
-        if (e.target.classList.contains('try-btn') && e.target.dataset.cmd) {
-            const cmd = e.target.dataset.cmd;
-            tryInTerminal(cmd);
+        const tryBtn = e.target.closest('.try-btn');
+        if (tryBtn && tryBtn.dataset.cmd) {
+            e.preventDefault();
+            e.stopPropagation();
+            const cmd = tryBtn.dataset.cmd;
+            // Store command and navigate to terminal
+            localStorage.setItem('cyber_terminal_cmd', cmd);
+            navigateTo('terminal/shell');
+            setTimeout(() => {
+                alert('Command ready! Paste it in the terminal:\n\n' + cmd);
+            }, 500);
+            return;
         }
         
         // Handle Kali tool card clicks
-        if (e.target.closest('.kali-tool-card')) {
-            const card = e.target.closest('.kali-tool-card');
-            const route = card.dataset.route;
-            if (route) {
-                navigateTo(route);
-            }
+        const card = e.target.closest('.kali-tool-card');
+        if (card && card.dataset.route) {
+            e.preventDefault();
+            navigateTo(card.dataset.route);
+            return;
         }
     });
 
