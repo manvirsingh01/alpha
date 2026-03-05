@@ -982,20 +982,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 switch (cmd) {
                     case 'help':
-                        terminalInstance.writeln('Available commands:');
-                        terminalInstance.writeln('  \x1b[1;33mhelp\x1b[0m     - Show this help message');
-                        terminalInstance.writeln('  \x1b[1;33mls\x1b[0m       - List files');
-                        terminalInstance.writeln('  \x1b[1;33mpwd\x1b[0m      - Print working directory');
-                        terminalInstance.writeln('  \x1b[1;33mcd\x1b[0m       - Change directory');
-                        terminalInstance.writeln('  \x1b[1;33mmkdir\x1b[0m    - Create directory');
-                        terminalInstance.writeln('  \x1b[1;33mwhoami\x1b[0m   - Print current user');
-                        terminalInstance.writeln('  \x1b[1;33mclear\x1b[0m    - Clear terminal screen');
-                        terminalInstance.writeln('  \x1b[1;33msudo\x1b[0m     - Execute a command as another user');
-                        terminalInstance.writeln('  \x1b[1;33mpkg\x1b[0m      - Package manager simulation');
-                        terminalInstance.writeln('  \x1b[1;33mping\x1b[0m     - Send ICMP ECHO_REQUEST to network hosts');
-                        terminalInstance.writeln('  \x1b[1;33mnmap\x1b[0m     - Network exploration tool and security scanner');
-                        terminalInstance.writeln('  \x1b[1;33mip\x1b[0m       - Show IP address');
-                        terminalInstance.writeln('  \x1b[1;33mnc\x1b[0m       - Netcat (Connect/Listen)');
+                        terminalInstance.writeln('\x1b[1;36m═══════════════════════════════════════════════════════════\x1b[0m');
+                        terminalInstance.writeln('\x1b[1;36m                    AVAILABLE COMMANDS                      \x1b[0m');
+                        terminalInstance.writeln('\x1b[1;36m═══════════════════════════════════════════════════════════\x1b[0m');
+                        terminalInstance.writeln('');
+                        terminalInstance.writeln('\x1b[1;33m[SYSTEM]\x1b[0m');
+                        terminalInstance.writeln('  help       - Show this help message');
+                        terminalInstance.writeln('  clear      - Clear terminal screen');
+                        terminalInstance.writeln('  whoami     - Print current user');
+                        terminalInstance.writeln('  uname -a   - Show system information');
+                        terminalInstance.writeln('  date       - Show current date/time');
+                        terminalInstance.writeln('  history    - Show command history');
+                        terminalInstance.writeln('  exit       - Exit terminal session');
+                        terminalInstance.writeln('');
+                        terminalInstance.writeln('\x1b[1;33m[FILE SYSTEM]\x1b[0m');
+                        terminalInstance.writeln('  ls         - List files');
+                        terminalInstance.writeln('  pwd        - Print working directory');
+                        terminalInstance.writeln('  cd <dir>   - Change directory');
+                        terminalInstance.writeln('  mkdir      - Create directory');
+                        terminalInstance.writeln('  cat <file> - Display file contents');
+                        terminalInstance.writeln('  echo       - Print text');
+                        terminalInstance.writeln('');
+                        terminalInstance.writeln('\x1b[1;33m[NETWORK]\x1b[0m');
+                        terminalInstance.writeln('  ping       - Send ICMP packets');
+                        terminalInstance.writeln('  ip/ifconfig- Show IP address');
+                        terminalInstance.writeln('  nc/netcat  - TCP/UDP connections');
+                        terminalInstance.writeln('  dig        - DNS lookup');
+                        terminalInstance.writeln('  whois      - Domain/IP lookup');
+                        terminalInstance.writeln('');
+                        terminalInstance.writeln('\x1b[1;33m[SECURITY TOOLS]\x1b[0m');
+                        terminalInstance.writeln('  nmap       - Network scanner');
+                        terminalInstance.writeln('  nikto      - Web server scanner');
+                        terminalInstance.writeln('  sqlmap     - SQL injection tool');
+                        terminalInstance.writeln('  hydra      - Password cracker');
+                        terminalInstance.writeln('  john       - Hash cracker');
+                        terminalInstance.writeln('  tshark     - Packet capture');
+                        terminalInstance.writeln('  msfconsole - Metasploit console');
+                        terminalInstance.writeln('');
+                        terminalInstance.writeln('\x1b[1;33m[OTHER]\x1b[0m');
+                        terminalInstance.writeln('  sudo       - Execute as root');
+                        terminalInstance.writeln('  pkg        - Package manager');
+                        terminalInstance.writeln('');
                         prompt();
                         break;
                     case 'clear':
@@ -1191,6 +1218,366 @@ document.addEventListener('DOMContentLoaded', () => {
                                 prompt();
                             }
                         }
+                        break;
+
+                    case 'whois':
+                        if (!args[1]) {
+                            terminalInstance.writeln('Usage: whois <domain|ip>');
+                            prompt();
+                        } else {
+                            const target = args[1];
+                            terminalInstance.writeln(`% WHOIS lookup for ${target}`);
+                            setTimeout(() => {
+                                if (target.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+                                    terminalInstance.writeln(`NetRange:       ${target.split('.').slice(0,2).join('.')}.0.0 - ${target.split('.').slice(0,2).join('.')}.255.255`);
+                                    terminalInstance.writeln(`CIDR:           ${target.split('.').slice(0,2).join('.')}.0.0/16`);
+                                    terminalInstance.writeln(`NetName:        EXAMPLE-NET`);
+                                    terminalInstance.writeln(`Organization:   Example Organization Inc.`);
+                                    terminalInstance.writeln(`Address:        123 Internet Street`);
+                                    terminalInstance.writeln(`City:           San Francisco`);
+                                    terminalInstance.writeln(`Country:        US`);
+                                } else {
+                                    terminalInstance.writeln(`Domain Name: ${target.toUpperCase()}`);
+                                    terminalInstance.writeln(`Registry Domain ID: 123456789_DOMAIN`);
+                                    terminalInstance.writeln(`Registrar: Example Registrar Inc.`);
+                                    terminalInstance.writeln(`Creation Date: 2010-01-15T00:00:00Z`);
+                                    terminalInstance.writeln(`Updated Date: 2023-06-20T12:30:00Z`);
+                                    terminalInstance.writeln(`Registrar URL: http://www.example-registrar.com`);
+                                    terminalInstance.writeln(`Name Server: NS1.EXAMPLE.COM`);
+                                    terminalInstance.writeln(`Name Server: NS2.EXAMPLE.COM`);
+                                }
+                                prompt();
+                            }, 800);
+                            return;
+                        }
+                        break;
+
+                    case 'dig':
+                        if (!args[1]) {
+                            terminalInstance.writeln('Usage: dig [@server] <domain> [type]');
+                            prompt();
+                        } else {
+                            let server = '8.8.8.8';
+                            let domain = args[1];
+                            let type = 'A';
+                            if (args[1].startsWith('@')) {
+                                server = args[1].substring(1);
+                                domain = args[2] || '';
+                                type = args[3] || 'A';
+                            } else {
+                                type = args[2] || 'A';
+                            }
+                            if (!domain) {
+                                terminalInstance.writeln('Usage: dig [@server] <domain> [type]');
+                                prompt();
+                                return;
+                            }
+                            terminalInstance.writeln(`; <<>> DiG 9.18.12 <<>> ${domain} ${type}`);
+                            terminalInstance.writeln(`;; global options: +cmd`);
+                            terminalInstance.writeln(`;; Got answer:`);
+                            terminalInstance.writeln(`;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: ${Math.floor(Math.random() * 65535)}`);
+                            terminalInstance.writeln(`;; QUESTION SECTION:`);
+                            terminalInstance.writeln(`;${domain}.                  IN      ${type}`);
+                            terminalInstance.writeln(``);
+                            terminalInstance.writeln(`;; ANSWER SECTION:`);
+                            if (type.toUpperCase() === 'MX') {
+                                terminalInstance.writeln(`${domain}.           300     IN      MX      10 mail.${domain}.`);
+                                terminalInstance.writeln(`${domain}.           300     IN      MX      20 mail2.${domain}.`);
+                            } else if (type.toUpperCase() === 'NS') {
+                                terminalInstance.writeln(`${domain}.           86400   IN      NS      ns1.${domain}.`);
+                                terminalInstance.writeln(`${domain}.           86400   IN      NS      ns2.${domain}.`);
+                            } else {
+                                const ip = `${Math.floor(Math.random()*200)+50}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+                                terminalInstance.writeln(`${domain}.           300     IN      A       ${ip}`);
+                            }
+                            terminalInstance.writeln(``);
+                            terminalInstance.writeln(`;; Query time: ${Math.floor(Math.random() * 50) + 10} msec`);
+                            terminalInstance.writeln(`;; SERVER: ${server}#53(${server})`);
+                            prompt();
+                        }
+                        break;
+
+                    case 'nikto':
+                        if (!args[1] && !args.includes('-h')) {
+                            terminalInstance.writeln('Usage: nikto -h <host> [-p port] [-ssl]');
+                            prompt();
+                        } else {
+                            let targetHost = '';
+                            const hIndex = args.indexOf('-h');
+                            if (hIndex !== -1 && args[hIndex + 1]) {
+                                targetHost = args[hIndex + 1];
+                            }
+                            if (!targetHost) {
+                                terminalInstance.writeln('Usage: nikto -h <host>');
+                                prompt();
+                                return;
+                            }
+                            terminalInstance.writeln(`- Nikto v2.5.0`);
+                            terminalInstance.writeln(`---------------------------------------------------------------------------`);
+                            terminalInstance.writeln(`+ Target IP:          ${targetHost}`);
+                            terminalInstance.writeln(`+ Target Hostname:    ${targetHost}`);
+                            terminalInstance.writeln(`+ Target Port:        ${args.includes('-p') ? args[args.indexOf('-p') + 1] : '80'}`);
+                            terminalInstance.writeln(`+ Start Time:         ${new Date().toISOString()}`);
+                            terminalInstance.writeln(`---------------------------------------------------------------------------`);
+                            let progress = 0;
+                            const findings = [
+                                '+ Server: Apache/2.4.41 (Ubuntu)',
+                                '+ /: The anti-clickjacking X-Frame-Options header is not present.',
+                                '+ /: The X-Content-Type-Options header is not set.',
+                                '+ /icons/README: Apache default file found.',
+                                '+ /login.php: Admin login page/section found.',
+                                '+ /phpinfo.php: PHP info page found. Possible information disclosure.'
+                            ];
+                            const interval = setInterval(() => {
+                                if (progress < findings.length) {
+                                    terminalInstance.writeln(findings[progress]);
+                                    progress++;
+                                } else {
+                                    clearInterval(interval);
+                                    terminalInstance.writeln(`---------------------------------------------------------------------------`);
+                                    terminalInstance.writeln(`+ ${findings.length} findings`);
+                                    terminalInstance.writeln(`+ End Time:           ${new Date().toISOString()}`);
+                                    prompt();
+                                }
+                            }, 600);
+                            return;
+                        }
+                        break;
+
+                    case 'hydra':
+                        if (args.length < 3) {
+                            terminalInstance.writeln('Hydra v9.4 (c) 2023 by van Hauser/THC');
+                            terminalInstance.writeln('Usage: hydra -l <login> -P <wordlist> <target> <service>');
+                            terminalInstance.writeln('Example: hydra -l admin -P passwords.txt 192.168.1.1 ssh');
+                            prompt();
+                        } else {
+                            const lIndex = args.indexOf('-l');
+                            const PIndex = args.indexOf('-P');
+                            const login = lIndex !== -1 ? args[lIndex + 1] : 'admin';
+                            const wordlist = PIndex !== -1 ? args[PIndex + 1] : 'wordlist.txt';
+                            const target = args[args.length - 2] || '192.168.1.1';
+                            const service = args[args.length - 1] || 'ssh';
+                            
+                            terminalInstance.writeln(`Hydra v9.4 (c) 2023 by van Hauser/THC`);
+                            terminalInstance.writeln(`[DATA] attacking ${service}://${target}:22/`);
+                            terminalInstance.writeln(`[DATA] ${Math.floor(Math.random() * 50) + 10} valid passwords found`);
+                            
+                            let attempts = 0;
+                            const interval = setInterval(() => {
+                                attempts++;
+                                if (attempts <= 5) {
+                                    terminalInstance.writeln(`[ATTEMPT] target ${target} - login "${login}" - pass "password${attempts}"`);
+                                } else if (attempts === 6) {
+                                    terminalInstance.writeln(`\x1b[1;32m[22][${service}] host: ${target}   login: ${login}   password: admin123\x1b[0m`);
+                                    terminalInstance.writeln(`1 of 1 target successfully completed, 1 valid password found`);
+                                    clearInterval(interval);
+                                    prompt();
+                                }
+                            }, 400);
+                            return;
+                        }
+                        break;
+
+                    case 'john':
+                        if (!args[1]) {
+                            terminalInstance.writeln('John the Ripper 1.9.0-jumbo-1');
+                            terminalInstance.writeln('Usage: john [OPTIONS] [PASSWORD-FILES]');
+                            terminalInstance.writeln('       john --wordlist=<file> <hashfile>');
+                            terminalInstance.writeln('       john --show <hashfile>');
+                            prompt();
+                        } else if (args.includes('--show')) {
+                            terminalInstance.writeln('user1:password123');
+                            terminalInstance.writeln('admin:admin2023');
+                            terminalInstance.writeln('root:toor');
+                            terminalInstance.writeln('3 password hashes cracked, 0 left');
+                            prompt();
+                        } else {
+                            const hashfile = args.find(a => !a.startsWith('-')) || 'hashes.txt';
+                            terminalInstance.writeln(`Loaded 5 password hashes (Raw-MD5 [MD5 256/256 AVX2 8x3])`);
+                            terminalInstance.writeln(`Press 'q' or Ctrl-C to abort, almost any other key for status`);
+                            let cracked = 0;
+                            const interval = setInterval(() => {
+                                cracked++;
+                                const passwords = ['password123', 'admin2023', 'letmein', 'qwerty', 'dragon'];
+                                if (cracked <= 3) {
+                                    terminalInstance.writeln(`\x1b[1;32m${passwords[cracked-1]}\x1b[0m     (user${cracked})`);
+                                } else {
+                                    clearInterval(interval);
+                                    terminalInstance.writeln(`3g 0:00:00:02 DONE 1.5g/s 1234Kp/s 1234Kc/s`);
+                                    terminalInstance.writeln(`Session completed`);
+                                    prompt();
+                                }
+                            }, 800);
+                            return;
+                        }
+                        break;
+
+                    case 'sqlmap':
+                        if (!args[1]) {
+                            terminalInstance.writeln('Usage: sqlmap -u <URL> [options]');
+                            terminalInstance.writeln('Example: sqlmap -u "http://site.com/page?id=1" --dbs');
+                            prompt();
+                        } else {
+                            const uIndex = args.indexOf('-u');
+                            const url = uIndex !== -1 ? args[uIndex + 1] : args[1];
+                            terminalInstance.writeln(`        ___`);
+                            terminalInstance.writeln(`       __H__`);
+                            terminalInstance.writeln(` ___ ___[']_____ ___ ___  {1.7.2#stable}`);
+                            terminalInstance.writeln(`|_ -| . [)]     | .'| . |`);
+                            terminalInstance.writeln(`|___|_  ["]_|_|_|__,|  _|`);
+                            terminalInstance.writeln(`      |_|V...       |_|`);
+                            terminalInstance.writeln(``);
+                            terminalInstance.writeln(`[*] starting @ ${new Date().toTimeString().split(' ')[0]}`);
+                            setTimeout(() => {
+                                terminalInstance.writeln(`[*] testing connection to target URL`);
+                            }, 300);
+                            setTimeout(() => {
+                                terminalInstance.writeln(`[*] testing if the target URL is stable`);
+                            }, 600);
+                            setTimeout(() => {
+                                terminalInstance.writeln(`\x1b[1;32m[*] target URL is stable\x1b[0m`);
+                            }, 900);
+                            setTimeout(() => {
+                                terminalInstance.writeln(`[*] testing for SQL injection on parameter 'id'`);
+                            }, 1200);
+                            setTimeout(() => {
+                                terminalInstance.writeln(`\x1b[1;32m[+] parameter 'id' is vulnerable. Injection type: boolean-based blind\x1b[0m`);
+                                if (args.includes('--dbs')) {
+                                    terminalInstance.writeln(`[*] fetching database names`);
+                                    setTimeout(() => {
+                                        terminalInstance.writeln(`available databases [3]:`);
+                                        terminalInstance.writeln(`[*] information_schema`);
+                                        terminalInstance.writeln(`[*] mysql`);
+                                        terminalInstance.writeln(`[*] webapp_db`);
+                                        prompt();
+                                    }, 800);
+                                } else {
+                                    prompt();
+                                }
+                            }, 1800);
+                            return;
+                        }
+                        break;
+
+                    case 'tshark':
+                        if (args.includes('-D')) {
+                            terminalInstance.writeln('1. eth0');
+                            terminalInstance.writeln('2. lo (Loopback)');
+                            terminalInstance.writeln('3. any');
+                            terminalInstance.writeln('4. wlan0');
+                            prompt();
+                        } else if (args.includes('-i')) {
+                            const iface = args[args.indexOf('-i') + 1] || 'eth0';
+                            terminalInstance.writeln(`Capturing on '${iface}'`);
+                            let packetNum = 0;
+                            const protocols = ['TCP', 'UDP', 'HTTP', 'DNS', 'TLS', 'ICMP'];
+                            const interval = setInterval(() => {
+                                packetNum++;
+                                const proto = protocols[Math.floor(Math.random() * protocols.length)];
+                                const srcIP = `192.168.1.${Math.floor(Math.random() * 255)}`;
+                                const dstIP = `${Math.floor(Math.random() * 200) + 50}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+                                const srcPort = Math.floor(Math.random() * 60000) + 1024;
+                                const dstPort = [80, 443, 53, 22, 8080][Math.floor(Math.random() * 5)];
+                                terminalInstance.writeln(`  ${packetNum}   0.${String(packetNum * 123).padStart(6, '0')} ${srcIP} → ${dstIP} ${proto} ${srcPort} → ${dstPort}`);
+                                if (packetNum >= 10) {
+                                    clearInterval(interval);
+                                    terminalInstance.writeln(`10 packets captured`);
+                                    prompt();
+                                }
+                            }, 300);
+                            return;
+                        } else {
+                            terminalInstance.writeln('TShark (Wireshark) 4.0.3');
+                            terminalInstance.writeln('Usage: tshark -i <interface> [-w file] [-r file] [-D]');
+                            prompt();
+                        }
+                        break;
+
+                    case 'msfconsole':
+                        terminalInstance.writeln(`                                                  `);
+                        terminalInstance.writeln(`     ,           ,`);
+                        terminalInstance.writeln(`    /             \\`);
+                        terminalInstance.writeln(`   ((__---,,,---__))`);
+                        terminalInstance.writeln(`      (_) O O (_)_________`);
+                        terminalInstance.writeln(`         \\ _ /            |\\`);
+                        terminalInstance.writeln(`          o_o \\   M S F   | \\`);
+                        terminalInstance.writeln(`               \\   _____  |  *`);
+                        terminalInstance.writeln(`                |||   WW|||`);
+                        terminalInstance.writeln(`                |||     |||`);
+                        terminalInstance.writeln(``);
+                        terminalInstance.writeln(`       =[ metasploit v6.3.4-dev ]`);
+                        terminalInstance.writeln(`+ -- --=[ 2345 exploits - 1234 auxiliary ]`);
+                        terminalInstance.writeln(`+ -- --=[ 456 payloads - 45 encoders ]`);
+                        terminalInstance.writeln(`+ -- --=[ 11 nops - 9 evasion ]`);
+                        terminalInstance.writeln(``);
+                        terminalInstance.writeln(`\x1b[1;33m[!] Simulated Metasploit Console\x1b[0m`);
+                        terminalInstance.writeln(`Type 'help' for available commands`);
+                        prompt();
+                        break;
+
+                    case 'ifconfig':
+                        terminalInstance.writeln(`eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500`);
+                        terminalInstance.writeln(`        inet 192.168.1.105  netmask 255.255.255.0  broadcast 192.168.1.255`);
+                        terminalInstance.writeln(`        inet6 fe80::a00:27ff:fe8e:8aa8  prefixlen 64  scopeid 0x20<link>`);
+                        terminalInstance.writeln(`        ether 08:00:27:8e:8a:a8  txqueuelen 1000  (Ethernet)`);
+                        terminalInstance.writeln(`        RX packets 12345  bytes 9876543 (9.4 MiB)`);
+                        terminalInstance.writeln(`        TX packets 8765  bytes 1234567 (1.1 MiB)`);
+                        terminalInstance.writeln(``);
+                        terminalInstance.writeln(`lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536`);
+                        terminalInstance.writeln(`        inet 127.0.0.1  netmask 255.0.0.0`);
+                        terminalInstance.writeln(`        inet6 ::1  prefixlen 128  scopeid 0x10<host>`);
+                        terminalInstance.writeln(`        loop  txqueuelen 1000  (Local Loopback)`);
+                        prompt();
+                        break;
+
+                    case 'cat':
+                        if (!args[1]) {
+                            terminalInstance.writeln('cat: missing file operand');
+                        } else if (args[1] === '/etc/passwd') {
+                            terminalInstance.writeln('root:x:0:0:root:/root:/bin/bash');
+                            terminalInstance.writeln('daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin');
+                            terminalInstance.writeln('bin:x:2:2:bin:/bin:/usr/sbin/nologin');
+                            terminalInstance.writeln('www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin');
+                            terminalInstance.writeln('nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin');
+                        } else if (args[1] === '/etc/shadow') {
+                            terminalInstance.writeln('\x1b[1;31mcat: /etc/shadow: Permission denied\x1b[0m');
+                        } else {
+                            terminalInstance.writeln(`cat: ${args[1]}: No such file or directory`);
+                        }
+                        prompt();
+                        break;
+
+                    case 'uname':
+                        if (args.includes('-a')) {
+                            terminalInstance.writeln('Linux kali 6.1.0-kali5-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.12-1kali2 x86_64 GNU/Linux');
+                        } else {
+                            terminalInstance.writeln('Linux');
+                        }
+                        prompt();
+                        break;
+
+                    case 'date':
+                        terminalInstance.writeln(new Date().toString());
+                        prompt();
+                        break;
+
+                    case 'echo':
+                        terminalInstance.writeln(args.slice(1).join(' '));
+                        prompt();
+                        break;
+
+                    case 'history':
+                        terminalInstance.writeln('    1  ls');
+                        terminalInstance.writeln('    2  pwd');
+                        terminalInstance.writeln('    3  nmap 192.168.1.1');
+                        terminalInstance.writeln('    4  ping google.com');
+                        terminalInstance.writeln('    5  help');
+                        prompt();
+                        break;
+
+                    case 'exit':
+                    case 'logout':
+                        terminalInstance.writeln('\x1b[1;33mSession terminated. Refresh to restart.\x1b[0m');
                         break;
                     default:
                         terminalInstance.writeln(`bash: ${cmd}: command not found`);
