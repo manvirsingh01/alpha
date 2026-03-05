@@ -93,7 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
         'kali/john': 'kali-john',
         'kali/whois': 'kali-whois',
         'kali/dig': 'kali-dig',
-        'kali/metasploit': 'kali-metasploit'
+        'kali/metasploit': 'kali-metasploit',
+        'kali/burpsuite': 'kali-burpsuite',
+        'kali/aircrack': 'kali-aircrack',
+        'kali/hashcat': 'kali-hashcat',
+        'kali/gobuster': 'kali-gobuster',
+        'kali/dirb': 'kali-dirb',
+        'kali/wfuzz': 'kali-wfuzz',
+        'kali/enum4linux': 'kali-enum4linux',
+        'kali/smbclient': 'kali-smbclient',
+        'kali/crackmapexec': 'kali-crackmapexec',
+        'kali/responder': 'kali-responder'
     };
 
     // Category names mapping

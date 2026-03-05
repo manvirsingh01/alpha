@@ -101,6 +101,16 @@
                         <li data-route="kali/whois">WHOIS</li>
                         <li data-route="kali/dig">DIG</li>
                         <li data-route="kali/metasploit">METASPLOIT</li>
+                        <li data-route="kali/burpsuite">BURP_SUITE</li>
+                        <li data-route="kali/aircrack">AIRCRACK-NG</li>
+                        <li data-route="kali/hashcat">HASHCAT</li>
+                        <li data-route="kali/gobuster">GOBUSTER</li>
+                        <li data-route="kali/dirb">DIRB</li>
+                        <li data-route="kali/wfuzz">WFUZZ</li>
+                        <li data-route="kali/enum4linux">ENUM4LINUX</li>
+                        <li data-route="kali/smbclient">SMBCLIENT</li>
+                        <li data-route="kali/crackmapexec">CRACKMAPEXEC</li>
+                        <li data-route="kali/responder">RESPONDER</li>
                     </ul>
                 </div>
 
@@ -561,20 +571,60 @@
                                         <div class="kali-tool-desc">TCP/UDP Swiss Army Knife for networking</div>
                                         <div class="kali-tool-count">5 commands</div>
                                     </div>
+                                    <div class="kali-tool-card" data-route="kali/responder">
+                                        <div class="kali-tool-name">Responder</div>
+                                        <div class="kali-tool-desc">LLMNR/NBT-NS/MDNS poisoner for hash capture</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="kali-category">
-                                <h3>Vulnerability Analysis</h3>
+                                <h3>Web Application Testing</h3>
                                 <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/burpsuite">
+                                        <div class="kali-tool-name">Burp Suite</div>
+                                        <div class="kali-tool-desc">Web security testing platform with proxy</div>
+                                        <div class="kali-tool-count">3 commands</div>
+                                    </div>
                                     <div class="kali-tool-card" data-route="kali/nikto">
                                         <div class="kali-tool-name">Nikto</div>
-                                        <div class="kali-tool-desc">Web server scanner for dangerous files</div>
+                                        <div class="kali-tool-desc">Web server vulnerability scanner</div>
                                         <div class="kali-tool-count">5 commands</div>
                                     </div>
                                     <div class="kali-tool-card" data-route="kali/sqlmap">
                                         <div class="kali-tool-name">SQLMap</div>
                                         <div class="kali-tool-desc">SQL injection detection and exploitation</div>
                                         <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/wfuzz">
+                                        <div class="kali-tool-name">Wfuzz</div>
+                                        <div class="kali-tool-desc">Web application fuzzer for brute-forcing</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kali-category">
+                                <h3>Directory/DNS Enumeration</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/gobuster">
+                                        <div class="kali-tool-name">Gobuster</div>
+                                        <div class="kali-tool-desc">Fast directory/DNS brute-forcer in Go</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/dirb">
+                                        <div class="kali-tool-name">DIRB</div>
+                                        <div class="kali-tool-desc">Web content scanner for hidden files</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/whois">
+                                        <div class="kali-tool-name">Whois</div>
+                                        <div class="kali-tool-desc">Domain and IP registration lookup</div>
+                                        <div class="kali-tool-count">3 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/dig">
+                                        <div class="kali-tool-name">Dig</div>
+                                        <div class="kali-tool-desc">DNS lookup utility</div>
+                                        <div class="kali-tool-count">6 commands</div>
                                     </div>
                                 </div>
                             </div>
@@ -588,23 +638,43 @@
                                     </div>
                                     <div class="kali-tool-card" data-route="kali/john">
                                         <div class="kali-tool-name">John the Ripper</div>
-                                        <div class="kali-tool-desc">Password cracker for detecting weak passwords</div>
+                                        <div class="kali-tool-desc">CPU-based password hash cracker</div>
                                         <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/hashcat">
+                                        <div class="kali-tool-name">Hashcat</div>
+                                        <div class="kali-tool-desc">GPU-accelerated password recovery</div>
+                                        <div class="kali-tool-count">6 commands</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="kali-category">
-                                <h3>Information Gathering</h3>
+                                <h3>Wireless Attacks</h3>
                                 <div class="kali-tools-list">
-                                    <div class="kali-tool-card" data-route="kali/whois">
-                                        <div class="kali-tool-name">Whois</div>
-                                        <div class="kali-tool-desc">Domain and IP registration lookup</div>
-                                        <div class="kali-tool-count">3 commands</div>
-                                    </div>
-                                    <div class="kali-tool-card" data-route="kali/dig">
-                                        <div class="kali-tool-name">Dig</div>
-                                        <div class="kali-tool-desc">DNS lookup utility</div>
+                                    <div class="kali-tool-card" data-route="kali/aircrack">
+                                        <div class="kali-tool-name">Aircrack-ng</div>
+                                        <div class="kali-tool-desc">WiFi security auditing suite</div>
                                         <div class="kali-tool-count">6 commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kali-category">
+                                <h3>SMB/Active Directory</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/enum4linux">
+                                        <div class="kali-tool-name">Enum4linux</div>
+                                        <div class="kali-tool-desc">Windows/Samba enumeration tool</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/smbclient">
+                                        <div class="kali-tool-name">SMBclient</div>
+                                        <div class="kali-tool-desc">SMB/CIFS file share client</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/crackmapexec">
+                                        <div class="kali-tool-name">CrackMapExec</div>
+                                        <div class="kali-tool-desc">AD post-exploitation swiss army knife</div>
+                                        <div class="kali-tool-count">5 commands</div>
                                     </div>
                                 </div>
                             </div>
@@ -943,6 +1013,334 @@
                                     <tr><td><code>show options</code></td><td>Display module options</td><td><code>show options</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="show options">COPY</button><button class="cyber-btn small try-btn" data-cmd="show options">TRY</button></td></tr>
                                     <tr><td><code>set option value</code></td><td>Set module option</td><td><code>set RHOSTS 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="set RHOSTS 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="set RHOSTS 192.168.1.1">TRY</button></td></tr>
                                     <tr><td><code>exploit</code></td><td>Execute the module</td><td><code>exploit</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="exploit">COPY</button><button class="cyber-btn small try-btn" data-cmd="exploit">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BURP SUITE -->
+                <div id="kali-burpsuite-tool" class="tool-panel kali-tool-detail" data-tool="burpsuite">
+                    <h2>// BURP_SUITE</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Web Application Testing</span>
+                                <h3>Web Security Testing Platform</h3>
+                                <p>Burp Suite is the leading toolkit for web application security testing. It includes an intercepting proxy, web spider, scanner, intruder, repeater, and more. Essential for testing web apps for vulnerabilities like SQL injection, XSS, CSRF, and authentication flaws. The proxy intercepts all HTTP/HTTPS traffic between your browser and target applications.</p>
+                                <div class="kali-note">💡 Community Edition is free. Professional has advanced features like automated scanning.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install burpsuite</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install burpsuite">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>burpsuite</code></td><td>Launch Burp Suite GUI</td><td><code>burpsuite</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="burpsuite">COPY</button><button class="cyber-btn small try-btn" data-cmd="burpsuite">TRY</button></td></tr>
+                                    <tr><td><code>java -jar burpsuite.jar</code></td><td>Run from JAR file</td><td><code>java -jar burpsuite_community.jar</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="java -jar burpsuite_community.jar">COPY</button><button class="cyber-btn small try-btn" data-cmd="java -jar burpsuite_community.jar">TRY</button></td></tr>
+                                    <tr><td><code>Configure proxy: 127.0.0.1:8080</code></td><td>Set browser proxy to Burp</td><td><code>export http_proxy=127.0.0.1:8080</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="export http_proxy=127.0.0.1:8080">COPY</button><button class="cyber-btn small try-btn" data-cmd="export http_proxy=127.0.0.1:8080">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AIRCRACK-NG -->
+                <div id="kali-aircrack-tool" class="tool-panel kali-tool-detail" data-tool="aircrack">
+                    <h2>// AIRCRACK-NG</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Wireless Attacks</span>
+                                <h3>WiFi Security Auditing Suite</h3>
+                                <p>Aircrack-ng is a complete suite for assessing WiFi network security. It focuses on monitoring (packet capture), attacking (replay attacks, deauthentication), testing (checking WiFi cards and driver capabilities), and cracking (WEP and WPA/WPA2-PSK). It works with any WiFi card that supports raw monitoring mode.</p>
+                                <div class="kali-note">⚠️ Only use on networks you own or have permission to test. Unauthorized access is illegal.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install aircrack-ng</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install aircrack-ng">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>airmon-ng start &lt;interface&gt;</code></td><td>Enable monitor mode on wireless interface</td><td><code>airmon-ng start wlan0</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="airmon-ng start wlan0">COPY</button><button class="cyber-btn small try-btn" data-cmd="airmon-ng start wlan0">TRY</button></td></tr>
+                                    <tr><td><code>airodump-ng &lt;interface&gt;</code></td><td>Capture packets and list nearby networks</td><td><code>airodump-ng wlan0mon</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="airodump-ng wlan0mon">COPY</button><button class="cyber-btn small try-btn" data-cmd="airodump-ng wlan0mon">TRY</button></td></tr>
+                                    <tr><td><code>airodump-ng -c &lt;ch&gt; --bssid &lt;mac&gt; -w &lt;file&gt; &lt;iface&gt;</code></td><td>Target specific network and save capture</td><td><code>airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon">COPY</button><button class="cyber-btn small try-btn" data-cmd="airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon">TRY</button></td></tr>
+                                    <tr><td><code>aireplay-ng -0 &lt;count&gt; -a &lt;bssid&gt; &lt;iface&gt;</code></td><td>Deauthentication attack to capture handshake</td><td><code>aireplay-ng -0 10 -a AA:BB:CC:DD:EE:FF wlan0mon</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="aireplay-ng -0 10 -a AA:BB:CC:DD:EE:FF wlan0mon">COPY</button><button class="cyber-btn small try-btn" data-cmd="aireplay-ng -0 10 -a AA:BB:CC:DD:EE:FF wlan0mon">TRY</button></td></tr>
+                                    <tr><td><code>aircrack-ng -w &lt;wordlist&gt; &lt;capture&gt;</code></td><td>Crack WPA/WPA2 with wordlist</td><td><code>aircrack-ng -w rockyou.txt capture-01.cap</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="aircrack-ng -w rockyou.txt capture-01.cap">COPY</button><button class="cyber-btn small try-btn" data-cmd="aircrack-ng -w rockyou.txt capture-01.cap">TRY</button></td></tr>
+                                    <tr><td><code>airmon-ng stop &lt;interface&gt;</code></td><td>Disable monitor mode</td><td><code>airmon-ng stop wlan0mon</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="airmon-ng stop wlan0mon">COPY</button><button class="cyber-btn small try-btn" data-cmd="airmon-ng stop wlan0mon">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HASHCAT -->
+                <div id="kali-hashcat-tool" class="tool-panel kali-tool-detail" data-tool="hashcat">
+                    <h2>// HASHCAT</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Password Attacks</span>
+                                <h3>Advanced GPU Password Recovery</h3>
+                                <p>Hashcat is the world's fastest and most advanced password recovery utility, supporting 300+ hash types including MD5, SHA1, SHA256, bcrypt, NTLM, and more. It leverages GPU acceleration to crack passwords at incredible speeds. Supports multiple attack modes: dictionary, brute-force, combinator, rule-based, and mask attacks.</p>
+                                <div class="kali-note">💡 GPU acceleration provides 10-100x faster cracking than CPU-only tools like John.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install hashcat</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install hashcat">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>hashcat -m &lt;type&gt; &lt;hash&gt; &lt;wordlist&gt;</code></td><td>Dictionary attack with hash type</td><td><code>hashcat -m 0 hash.txt rockyou.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat -m 0 hash.txt rockyou.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat -m 0 hash.txt rockyou.txt">TRY</button></td></tr>
+                                    <tr><td><code>hashcat -m 0</code></td><td>MD5 hash type</td><td><code>hashcat -m 0 hash.txt wordlist.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat -m 0 hash.txt wordlist.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat -m 0 hash.txt wordlist.txt">TRY</button></td></tr>
+                                    <tr><td><code>hashcat -m 1000</code></td><td>NTLM hash type (Windows)</td><td><code>hashcat -m 1000 ntlm.txt rockyou.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat -m 1000 ntlm.txt rockyou.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat -m 1000 ntlm.txt rockyou.txt">TRY</button></td></tr>
+                                    <tr><td><code>hashcat -a 3 -m &lt;type&gt; &lt;hash&gt; ?a?a?a?a</code></td><td>Brute-force with mask (4 chars)</td><td><code>hashcat -a 3 -m 0 hash.txt ?a?a?a?a?a?a</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat -a 3 -m 0 hash.txt ?a?a?a?a?a?a">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat -a 3 -m 0 hash.txt ?a?a?a?a?a?a">TRY</button></td></tr>
+                                    <tr><td><code>hashcat --show &lt;hash&gt;</code></td><td>Show cracked passwords</td><td><code>hashcat --show hash.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat --show hash.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat --show hash.txt">TRY</button></td></tr>
+                                    <tr><td><code>hashcat -I</code></td><td>Show available devices (GPUs)</td><td><code>hashcat -I</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat -I">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat -I">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOBUSTER -->
+                <div id="kali-gobuster-tool" class="tool-panel kali-tool-detail" data-tool="gobuster">
+                    <h2>// GOBUSTER</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Web Enumeration</span>
+                                <h3>Directory/DNS/VHost Brute-Forcer</h3>
+                                <p>Gobuster is a fast directory/file, DNS subdomain, and virtual host brute-forcing tool written in Go. It's commonly used to discover hidden directories, files, and subdomains on web servers. Much faster than similar tools due to Go's concurrency. Supports multiple modes: dir (directories), dns (subdomains), vhost (virtual hosts), and s3 (AWS buckets).</p>
+                                <div class="kali-note">💡 Use with SecLists wordlists for comprehensive enumeration.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install gobuster</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install gobuster">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>gobuster dir -u &lt;url&gt; -w &lt;wordlist&gt;</code></td><td>Directory brute-force</td><td><code>gobuster dir -u http://target.com -w /usr/share/wordlists/dirb/common.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="gobuster dir -u http://target.com -w /usr/share/wordlists/dirb/common.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="gobuster dir -u http://target.com -w /usr/share/wordlists/dirb/common.txt">TRY</button></td></tr>
+                                    <tr><td><code>gobuster dir -u &lt;url&gt; -w &lt;wl&gt; -x php,html</code></td><td>Search for specific extensions</td><td><code>gobuster dir -u http://target.com -w wordlist.txt -x php,html,txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="gobuster dir -u http://target.com -w wordlist.txt -x php,html,txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="gobuster dir -u http://target.com -w wordlist.txt -x php,html,txt">TRY</button></td></tr>
+                                    <tr><td><code>gobuster dns -d &lt;domain&gt; -w &lt;wordlist&gt;</code></td><td>DNS subdomain enumeration</td><td><code>gobuster dns -d target.com -w subdomains.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="gobuster dns -d target.com -w subdomains.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="gobuster dns -d target.com -w subdomains.txt">TRY</button></td></tr>
+                                    <tr><td><code>gobuster vhost -u &lt;url&gt; -w &lt;wordlist&gt;</code></td><td>Virtual host enumeration</td><td><code>gobuster vhost -u http://target.com -w vhosts.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="gobuster vhost -u http://target.com -w vhosts.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="gobuster vhost -u http://target.com -w vhosts.txt">TRY</button></td></tr>
+                                    <tr><td><code>gobuster dir -u &lt;url&gt; -w &lt;wl&gt; -t 50</code></td><td>Use 50 threads for faster scan</td><td><code>gobuster dir -u http://target.com -w wordlist.txt -t 50</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="gobuster dir -u http://target.com -w wordlist.txt -t 50">COPY</button><button class="cyber-btn small try-btn" data-cmd="gobuster dir -u http://target.com -w wordlist.txt -t 50">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIRB -->
+                <div id="kali-dirb-tool" class="tool-panel kali-tool-detail" data-tool="dirb">
+                    <h2>// DIRB</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Web Enumeration</span>
+                                <h3>Web Content Scanner</h3>
+                                <p>DIRB is a web content scanner that looks for existing (and hidden) web objects by launching a dictionary-based attack against a web server. It finds directories and files that may not be linked from the main website. Useful for finding admin panels, backup files, configuration files, and other sensitive content that developers may have left accessible.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install dirb</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install dirb">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>dirb &lt;url&gt;</code></td><td>Basic scan with default wordlist</td><td><code>dirb http://target.com</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dirb http://target.com">COPY</button><button class="cyber-btn small try-btn" data-cmd="dirb http://target.com">TRY</button></td></tr>
+                                    <tr><td><code>dirb &lt;url&gt; &lt;wordlist&gt;</code></td><td>Scan with custom wordlist</td><td><code>dirb http://target.com /usr/share/wordlists/dirb/big.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dirb http://target.com /usr/share/wordlists/dirb/big.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="dirb http://target.com /usr/share/wordlists/dirb/big.txt">TRY</button></td></tr>
+                                    <tr><td><code>dirb &lt;url&gt; -X &lt;extensions&gt;</code></td><td>Search for specific extensions</td><td><code>dirb http://target.com -X .php,.bak,.old</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dirb http://target.com -X .php,.bak,.old">COPY</button><button class="cyber-btn small try-btn" data-cmd="dirb http://target.com -X .php,.bak,.old">TRY</button></td></tr>
+                                    <tr><td><code>dirb &lt;url&gt; -o &lt;output&gt;</code></td><td>Save results to file</td><td><code>dirb http://target.com -o results.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dirb http://target.com -o results.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="dirb http://target.com -o results.txt">TRY</button></td></tr>
+                                    <tr><td><code>dirb &lt;url&gt; -a &lt;user-agent&gt;</code></td><td>Use custom User-Agent</td><td><code>dirb http://target.com -a "Mozilla/5.0"</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dirb http://target.com -a Mozilla/5.0">COPY</button><button class="cyber-btn small try-btn" data-cmd="dirb http://target.com -a Mozilla/5.0">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WFUZZ -->
+                <div id="kali-wfuzz-tool" class="tool-panel kali-tool-detail" data-tool="wfuzz">
+                    <h2>// WFUZZ</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Web Fuzzing</span>
+                                <h3>Web Application Fuzzer</h3>
+                                <p>Wfuzz is a tool designed for brute-forcing web applications. It can be used to find resources not linked (directories, servlets, scripts), brute-force GET/POST parameters, brute-force forms (user/password), fuzz headers, and discover injection points. The FUZZ keyword is replaced with values from a wordlist.</p>
+                                <div class="kali-note">💡 Use --hc 404 to hide 404 responses and reduce noise.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install wfuzz</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install wfuzz">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>wfuzz -c -w &lt;wl&gt; &lt;url&gt;/FUZZ</code></td><td>Directory fuzzing with color</td><td><code>wfuzz -c -w wordlist.txt http://target.com/FUZZ</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="wfuzz -c -w wordlist.txt http://target.com/FUZZ">COPY</button><button class="cyber-btn small try-btn" data-cmd="wfuzz -c -w wordlist.txt http://target.com/FUZZ">TRY</button></td></tr>
+                                    <tr><td><code>wfuzz -c -w &lt;wl&gt; --hc 404 &lt;url&gt;/FUZZ</code></td><td>Hide 404 responses</td><td><code>wfuzz -c -w wordlist.txt --hc 404 http://target.com/FUZZ</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="wfuzz -c -w wordlist.txt --hc 404 http://target.com/FUZZ">COPY</button><button class="cyber-btn small try-btn" data-cmd="wfuzz -c -w wordlist.txt --hc 404 http://target.com/FUZZ">TRY</button></td></tr>
+                                    <tr><td><code>wfuzz -c -w &lt;wl&gt; -d "user=FUZZ" &lt;url&gt;</code></td><td>POST parameter fuzzing</td><td><code>wfuzz -c -w users.txt -d "username=FUZZ&password=admin" http://target.com/login</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="wfuzz -c -w users.txt -d &quot;username=FUZZ&password=admin&quot; http://target.com/login">COPY</button><button class="cyber-btn small try-btn" data-cmd="wfuzz -c -w users.txt -d &quot;username=FUZZ&password=admin&quot; http://target.com/login">TRY</button></td></tr>
+                                    <tr><td><code>wfuzz -c -w &lt;wl&gt; -H "Host: FUZZ.target.com" &lt;url&gt;</code></td><td>Virtual host fuzzing</td><td><code>wfuzz -c -w subdomains.txt -H "Host: FUZZ.target.com" http://target.com</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="wfuzz -c -w subdomains.txt -H &quot;Host: FUZZ.target.com&quot; http://target.com">COPY</button><button class="cyber-btn small try-btn" data-cmd="wfuzz -c -w subdomains.txt -H &quot;Host: FUZZ.target.com&quot; http://target.com">TRY</button></td></tr>
+                                    <tr><td><code>wfuzz -c -z range,1-100 &lt;url&gt;?id=FUZZ</code></td><td>Fuzz with number range</td><td><code>wfuzz -c -z range,1-100 http://target.com/page?id=FUZZ</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="wfuzz -c -z range,1-100 http://target.com/page?id=FUZZ">COPY</button><button class="cyber-btn small try-btn" data-cmd="wfuzz -c -z range,1-100 http://target.com/page?id=FUZZ">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ENUM4LINUX -->
+                <div id="kali-enum4linux-tool" class="tool-panel kali-tool-detail" data-tool="enum4linux">
+                    <h2>// ENUM4LINUX</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">SMB Enumeration</span>
+                                <h3>Windows/Samba Enumeration Tool</h3>
+                                <p>Enum4linux is a tool for enumerating information from Windows and Samba systems. It can gather usernames, group membership, shares, password policies, and OS information. Essential for Active Directory and Windows network penetration testing. Wraps commands from smbclient, rpcclient, net, and nmblookup.</p>
+                                <div class="kali-note">💡 Use -a for full enumeration including users, shares, groups, and policies.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install enum4linux</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install enum4linux">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>enum4linux -a &lt;ip&gt;</code></td><td>Full enumeration (all options)</td><td><code>enum4linux -a 192.168.1.100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="enum4linux -a 192.168.1.100">COPY</button><button class="cyber-btn small try-btn" data-cmd="enum4linux -a 192.168.1.100">TRY</button></td></tr>
+                                    <tr><td><code>enum4linux -U &lt;ip&gt;</code></td><td>Enumerate users</td><td><code>enum4linux -U 192.168.1.100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="enum4linux -U 192.168.1.100">COPY</button><button class="cyber-btn small try-btn" data-cmd="enum4linux -U 192.168.1.100">TRY</button></td></tr>
+                                    <tr><td><code>enum4linux -S &lt;ip&gt;</code></td><td>Enumerate shares</td><td><code>enum4linux -S 192.168.1.100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="enum4linux -S 192.168.1.100">COPY</button><button class="cyber-btn small try-btn" data-cmd="enum4linux -S 192.168.1.100">TRY</button></td></tr>
+                                    <tr><td><code>enum4linux -G &lt;ip&gt;</code></td><td>Enumerate groups</td><td><code>enum4linux -G 192.168.1.100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="enum4linux -G 192.168.1.100">COPY</button><button class="cyber-btn small try-btn" data-cmd="enum4linux -G 192.168.1.100">TRY</button></td></tr>
+                                    <tr><td><code>enum4linux -P &lt;ip&gt;</code></td><td>Enumerate password policy</td><td><code>enum4linux -P 192.168.1.100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="enum4linux -P 192.168.1.100">COPY</button><button class="cyber-btn small try-btn" data-cmd="enum4linux -P 192.168.1.100">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SMBCLIENT -->
+                <div id="kali-smbclient-tool" class="tool-panel kali-tool-detail" data-tool="smbclient">
+                    <h2>// SMBCLIENT</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">SMB/CIFS</span>
+                                <h3>SMB/CIFS Client</h3>
+                                <p>SMBclient is a command-line tool for accessing SMB/CIFS resources on servers. Similar to an FTP client, it allows you to list shares, download/upload files, and interact with Windows file shares. Essential for testing Windows networks and accessing shared folders during penetration tests.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install smbclient</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install smbclient">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>smbclient -L &lt;ip&gt;</code></td><td>List available shares</td><td><code>smbclient -L 192.168.1.100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="smbclient -L 192.168.1.100">COPY</button><button class="cyber-btn small try-btn" data-cmd="smbclient -L 192.168.1.100">TRY</button></td></tr>
+                                    <tr><td><code>smbclient -L &lt;ip&gt; -N</code></td><td>List shares with null session</td><td><code>smbclient -L 192.168.1.100 -N</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="smbclient -L 192.168.1.100 -N">COPY</button><button class="cyber-btn small try-btn" data-cmd="smbclient -L 192.168.1.100 -N">TRY</button></td></tr>
+                                    <tr><td><code>smbclient //&lt;ip&gt;/&lt;share&gt;</code></td><td>Connect to a share</td><td><code>smbclient //192.168.1.100/shared</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="smbclient //192.168.1.100/shared">COPY</button><button class="cyber-btn small try-btn" data-cmd="smbclient //192.168.1.100/shared">TRY</button></td></tr>
+                                    <tr><td><code>smbclient //&lt;ip&gt;/&lt;share&gt; -U &lt;user&gt;</code></td><td>Connect with username</td><td><code>smbclient //192.168.1.100/shared -U admin</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="smbclient //192.168.1.100/shared -U admin">COPY</button><button class="cyber-btn small try-btn" data-cmd="smbclient //192.168.1.100/shared -U admin">TRY</button></td></tr>
+                                    <tr><td><code>get &lt;file&gt;</code></td><td>Download file (inside smbclient)</td><td><code>get secret.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="get secret.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="get secret.txt">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CRACKMAPEXEC -->
+                <div id="kali-crackmapexec-tool" class="tool-panel kali-tool-detail" data-tool="crackmapexec">
+                    <h2>// CRACKMAPEXEC</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Active Directory</span>
+                                <h3>Post-Exploitation & AD Tool</h3>
+                                <p>CrackMapExec (CME) is a swiss army knife for pentesting networks. It automates assessing the security of large Active Directory networks. Supports SMB, LDAP, MSSQL, SSH, and WinRM protocols. Can perform password spraying, command execution, credential dumping, and lateral movement. Essential for AD penetration testing.</p>
+                                <div class="kali-note">💡 Green [+] means success, Red [-] means failed authentication.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install crackmapexec</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install crackmapexec">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>crackmapexec smb &lt;ip&gt;</code></td><td>SMB enumeration</td><td><code>crackmapexec smb 192.168.1.0/24</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="crackmapexec smb 192.168.1.0/24">COPY</button><button class="cyber-btn small try-btn" data-cmd="crackmapexec smb 192.168.1.0/24">TRY</button></td></tr>
+                                    <tr><td><code>crackmapexec smb &lt;ip&gt; -u &lt;user&gt; -p &lt;pass&gt;</code></td><td>Test credentials</td><td><code>crackmapexec smb 192.168.1.100 -u admin -p password123</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="crackmapexec smb 192.168.1.100 -u admin -p password123">COPY</button><button class="cyber-btn small try-btn" data-cmd="crackmapexec smb 192.168.1.100 -u admin -p password123">TRY</button></td></tr>
+                                    <tr><td><code>crackmapexec smb &lt;ip&gt; -u &lt;user&gt; -p &lt;pass&gt; --shares</code></td><td>List shares with creds</td><td><code>crackmapexec smb 192.168.1.100 -u admin -p pass --shares</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="crackmapexec smb 192.168.1.100 -u admin -p pass --shares">COPY</button><button class="cyber-btn small try-btn" data-cmd="crackmapexec smb 192.168.1.100 -u admin -p pass --shares">TRY</button></td></tr>
+                                    <tr><td><code>crackmapexec smb &lt;ip&gt; -u users.txt -p pass.txt</code></td><td>Password spraying</td><td><code>crackmapexec smb 192.168.1.100 -u users.txt -p passwords.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="crackmapexec smb 192.168.1.100 -u users.txt -p passwords.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="crackmapexec smb 192.168.1.100 -u users.txt -p passwords.txt">TRY</button></td></tr>
+                                    <tr><td><code>crackmapexec smb &lt;ip&gt; -u &lt;u&gt; -p &lt;p&gt; -x &lt;cmd&gt;</code></td><td>Execute command</td><td><code>crackmapexec smb 192.168.1.100 -u admin -p pass -x "whoami"</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="crackmapexec smb 192.168.1.100 -u admin -p pass -x &quot;whoami&quot;">COPY</button><button class="cyber-btn small try-btn" data-cmd="crackmapexec smb 192.168.1.100 -u admin -p pass -x &quot;whoami&quot;">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RESPONDER -->
+                <div id="kali-responder-tool" class="tool-panel kali-tool-detail" data-tool="responder">
+                    <h2>// RESPONDER</h2>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">LLMNR/NBT-NS Poisoning</span>
+                                <h3>Network Protocol Poisoner</h3>
+                                <p>Responder is a LLMNR, NBT-NS, and MDNS poisoner. When Windows machines fail to resolve hostnames via DNS, they fall back to LLMNR and NBT-NS. Responder responds to these queries, tricking machines into sending authentication hashes. These NTLMv2 hashes can then be cracked offline or relayed for access.</p>
+                                <div class="kali-note">⚠️ This is an active attack - use only on authorized networks!</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install responder</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install responder">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>responder -I &lt;interface&gt;</code></td><td>Start Responder on interface</td><td><code>responder -I eth0</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="responder -I eth0">COPY</button><button class="cyber-btn small try-btn" data-cmd="responder -I eth0">TRY</button></td></tr>
+                                    <tr><td><code>responder -I &lt;iface&gt; -wrf</code></td><td>Enable WPAD, fingerprinting</td><td><code>responder -I eth0 -wrf</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="responder -I eth0 -wrf">COPY</button><button class="cyber-btn small try-btn" data-cmd="responder -I eth0 -wrf">TRY</button></td></tr>
+                                    <tr><td><code>responder -I &lt;iface&gt; -A</code></td><td>Analyze mode (no poisoning)</td><td><code>responder -I eth0 -A</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="responder -I eth0 -A">COPY</button><button class="cyber-btn small try-btn" data-cmd="responder -I eth0 -A">TRY</button></td></tr>
+                                    <tr><td><code>cat /usr/share/responder/logs/*.txt</code></td><td>View captured hashes</td><td><code>cat /usr/share/responder/logs/Responder-Session.log</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="cat /usr/share/responder/logs/Responder-Session.log">COPY</button><button class="cyber-btn small try-btn" data-cmd="cat /usr/share/responder/logs/Responder-Session.log">TRY</button></td></tr>
+                                    <tr><td><code>hashcat -m 5600 hash.txt wordlist.txt</code></td><td>Crack NTLMv2 hash</td><td><code>hashcat -m 5600 ntlmv2.txt rockyou.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hashcat -m 5600 ntlmv2.txt rockyou.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="hashcat -m 5600 ntlmv2.txt rockyou.txt">TRY</button></td></tr>
                                 </tbody>
                             </table>
                         </div>
