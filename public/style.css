@@ -1231,3 +1231,313 @@ textarea:focus {
         opacity: 0.6;
     }
 }
+/* JWT Tool Styles */
+.jwt-result {
+    margin-top: 20px;
+}
+
+.jwt-section {
+    margin-bottom: 15px;
+    border: 1px solid var(--dim-color);
+    background: rgba(0, 255, 0, 0.03);
+}
+
+.jwt-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: var(--dim-color);
+    font-weight: bold;
+}
+
+.jwt-content {
+    padding: 12px;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: var(--font-main);
+    color: var(--text-color);
+    font-size: 0.9em;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.jwt-signature {
+    color: #ff6600;
+    font-size: 0.8em;
+}
+
+.jwt-validity {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid var(--dim-color);
+}
+
+.jwt-validity .valid {
+    color: #00ff00;
+}
+
+.jwt-validity .expired {
+    color: #ff0000;
+}
+
+.cyber-btn.small {
+    padding: 4px 8px;
+    font-size: 0.8em;
+}
+
+/* Password Generator Styles */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-color);
+}
+
+.cyber-slider {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    background: var(--dim-color);
+    outline: none;
+    border-radius: 0;
+}
+
+.cyber-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    cursor: pointer;
+    border: 2px solid var(--bg-color);
+}
+
+.cyber-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    cursor: pointer;
+    border: 2px solid var(--bg-color);
+}
+
+.password-strength {
+    margin-top: 10px;
+    padding: 8px;
+    font-weight: bold;
+}
+
+/* Timestamp Tool Styles */
+.timestamp-live {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--dim-color);
+    margin-bottom: 10px;
+}
+
+.timestamp-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #00ffff;
+}
+
+/* Kali Tools Styles */
+.kali-intro {
+    padding: 15px;
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px solid var(--dim-color);
+    margin-bottom: 20px;
+}
+
+.kali-intro p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.kali-tools-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.kali-category h3 {
+    color: #00ffff;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--dim-color);
+}
+
+.kali-tools-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.kali-tool-card {
+    background: rgba(0, 255, 0, 0.03);
+    border: 1px solid var(--dim-color);
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.kali-tool-card:hover {
+    border-color: var(--accent-color);
+    background: rgba(0, 255, 0, 0.08);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.kali-tool-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 8px;
+}
+
+.kali-tool-desc {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.kali-tool-count {
+    font-size: 0.8em;
+    color: #00ffff;
+}
+
+/* Kali Tool Detail Page */
+.kali-tool-header {
+    margin-bottom: 25px;
+}
+
+.kali-tool-info {
+    margin-bottom: 20px;
+}
+
+.kali-badge {
+    display: inline-block;
+    background: var(--dim-color);
+    color: #00ffff;
+    padding: 3px 10px;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+
+.kali-tool-info h3 {
+    margin: 10px 0;
+    color: var(--accent-color);
+}
+
+.kali-tool-info p {
+    line-height: 1.6;
+    color: #aaa;
+}
+
+.kali-note {
+    background: rgba(255, 100, 0, 0.1);
+    border: 1px solid #ff6600;
+    color: #ff9900;
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 0.9em;
+}
+
+.kali-install {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--dim-color);
+}
+
+.kali-install label {
+    color: #888;
+}
+
+.kali-install code {
+    background: rgba(0, 255, 0, 0.1);
+    padding: 5px 10px;
+    color: var(--accent-color);
+}
+
+/* Commands Table */
+.kali-commands-table {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.kali-commands-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+}
+
+.kali-commands-table th {
+    background: var(--dim-color);
+    padding: 12px 10px;
+    text-align: left;
+    font-weight: bold;
+    color: var(--accent-color);
+    white-space: nowrap;
+}
+
+.kali-commands-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid rgba(0, 255, 0, 0.1);
+    vertical-align: top;
+}
+
+.kali-commands-table tr:hover {
+    background: rgba(0, 255, 0, 0.03);
+}
+
+.kali-commands-table code {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 3px 6px;
+    font-family: var(--font-main);
+    font-size: 0.95em;
+    word-break: break-all;
+}
+
+.kali-commands-table code.example {
+    color: #00ffff;
+}
+
+.kali-commands-table .actions {
+    white-space: nowrap;
+    display: flex;
+    gap: 5px;
+}
+
+.kali-commands-table .actions .cyber-btn {
+    padding: 4px 8px;
+    font-size: 0.75em;
+}
+
+.kali-commands-table .try-terminal {
+    background: rgba(0, 170, 255, 0.2);
+    border-color: #00aaff;
+    color: #00aaff;
+}
+
+.kali-commands-table .try-terminal:hover {
+    background: rgba(0, 170, 255, 0.4);
+    box-shadow: 0 0 10px rgba(0, 170, 255, 0.5);
+}

@@ -85,6 +85,26 @@
                 </div>
 
                 <div class="category">
+                    <div class="category-header" data-category="kali">
+                        <span class="category-icon">▶</span>
+                        <span>KALI_TOOLS</span>
+                    </div>
+                    <ul class="category-items">
+                        <li data-route="kali/all">ALL_TOOLS</li>
+                        <li data-route="kali/nmap">NMAP</li>
+                        <li data-route="kali/wireshark">WIRESHARK</li>
+                        <li data-route="kali/netcat">NETCAT</li>
+                        <li data-route="kali/nikto">NIKTO</li>
+                        <li data-route="kali/sqlmap">SQLMAP</li>
+                        <li data-route="kali/hydra">HYDRA</li>
+                        <li data-route="kali/john">JOHN</li>
+                        <li data-route="kali/whois">WHOIS</li>
+                        <li data-route="kali/dig">DIG</li>
+                        <li data-route="kali/metasploit">METASPLOIT</li>
+                    </ul>
+                </div>
+
+                <div class="category">
                     <div class="category-header" data-category="terminal">
                         <span class="category-icon">▶</span>
                         <span>TERMINAL</span>
@@ -94,6 +114,27 @@
                     </ul>
                 </div>
 
+
+                <div class="category">
+                    <div class="category-header" data-category="crypto">
+                        <span class="category-icon">▶</span>
+                        <span>CRYPTO_TOOLS</span>
+                    </div>
+                    <ul class="category-items">
+                        <li data-route="crypto/jwt">JWT_DECODER</li>
+                        <li data-route="crypto/password">PASSWORD_GEN</li>
+                    </ul>
+                </div>
+
+                <div class="category">
+                    <div class="category-header" data-category="utilities">
+                        <span class="category-icon">▶</span>
+                        <span>UTILITIES</span>
+                    </div>
+                    <ul class="category-items">
+                        <li data-route="utilities/timestamp">TIMESTAMP</li>
+                    </ul>
+                </div>
 
                 <div class="category">
                     <div class="category-header" data-category="settings">
@@ -494,7 +535,164 @@
                     </div>
                 </div>
 
+                <!-- Kali Tools - All Tools Overview -->
+                <div id="kali-all-tool" class="tool-panel">
+                    <h2>// KALI_LINUX_TOOLS_REFERENCE</h2>
+                    <div class="tool-interface">
+                        <div class="kali-intro">
+                            <p>Browse and learn commands for popular Kali Linux security tools. Click any tool to see its commands, then use "TRY IN TERMINAL" to test them.</p>
+                        </div>
+                        <div id="kali-tools-grid" class="kali-tools-grid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kali Tool Detail Template (used for all individual tools) -->
+                <div id="kali-nmap-tool" class="tool-panel kali-tool-detail" data-tool="nmap"></div>
+                <div id="kali-wireshark-tool" class="tool-panel kali-tool-detail" data-tool="wireshark"></div>
+                <div id="kali-netcat-tool" class="tool-panel kali-tool-detail" data-tool="netcat"></div>
+                <div id="kali-nikto-tool" class="tool-panel kali-tool-detail" data-tool="nikto"></div>
+                <div id="kali-sqlmap-tool" class="tool-panel kali-tool-detail" data-tool="sqlmap"></div>
+                <div id="kali-hydra-tool" class="tool-panel kali-tool-detail" data-tool="hydra"></div>
+                <div id="kali-john-tool" class="tool-panel kali-tool-detail" data-tool="john"></div>
+                <div id="kali-whois-tool" class="tool-panel kali-tool-detail" data-tool="whois"></div>
+                <div id="kali-dig-tool" class="tool-panel kali-tool-detail" data-tool="dig"></div>
+                <div id="kali-metasploit-tool" class="tool-panel kali-tool-detail" data-tool="metasploit"></div>
+
                 <!-- Temp Email Tool -->
+
+                <!-- JWT Decoder Tool -->
+                <div id="jwt-tool" class="tool-panel">
+                    <h2>// JWT_DECODER_ENCODER</h2>
+                    <div class="tool-interface">
+                        <div class="input-group">
+                            <label for="jwt-input">JWT_TOKEN:</label>
+                            <textarea id="jwt-input" placeholder="PASTE JWT TOKEN HERE (eyJhbGciOiJI...)"></textarea>
+                        </div>
+                        <div class="controls">
+                            <button id="btn-jwt-decode" class="cyber-btn">DECODE >></button>
+                            <button id="btn-jwt-clear" class="cyber-btn warning">CLEAR</button>
+                        </div>
+                        <div id="jwt-result" class="jwt-result" style="display: none;">
+                            <div class="jwt-section">
+                                <div class="jwt-section-header">
+                                    <span>HEADER</span>
+                                    <button class="cyber-btn small" data-copy="jwt-header">COPY</button>
+                                </div>
+                                <pre id="jwt-header" class="jwt-content"></pre>
+                            </div>
+                            <div class="jwt-section">
+                                <div class="jwt-section-header">
+                                    <span>PAYLOAD</span>
+                                    <button class="cyber-btn small" data-copy="jwt-payload">COPY</button>
+                                </div>
+                                <pre id="jwt-payload" class="jwt-content"></pre>
+                            </div>
+                            <div class="jwt-section">
+                                <div class="jwt-section-header">
+                                    <span>SIGNATURE</span>
+                                </div>
+                                <pre id="jwt-signature" class="jwt-content jwt-signature"></pre>
+                            </div>
+                            <div id="jwt-validity" class="jwt-validity"></div>
+                        </div>
+                        <hr style="border-color: var(--border-color); margin: 20px 0;">
+                        <h3>VERIFY SIGNATURE (HS256)</h3>
+                        <div class="input-group">
+                            <label for="jwt-secret">SECRET_KEY:</label>
+                            <input type="text" id="jwt-secret" class="cyber-text-input" placeholder="ENTER SECRET KEY TO VERIFY SIGNATURE...">
+                        </div>
+                        <div class="controls">
+                            <button id="btn-jwt-verify" class="cyber-btn">VERIFY >></button>
+                        </div>
+                        <div id="jwt-verify-result" class="vt-status"></div>
+                    </div>
+                </div>
+
+                <!-- Password Generator Tool -->
+                <div id="password-tool" class="tool-panel">
+                    <h2>// PASSWORD_SECRET_GENERATOR</h2>
+                    <div class="tool-interface">
+                        <div class="input-group">
+                            <label>PASSWORD LENGTH: <span id="password-length-display">16</span></label>
+                            <input type="range" id="password-length" min="8" max="128" value="16" class="cyber-slider">
+                        </div>
+                        <div class="input-group checkbox-group">
+                            <label><input type="checkbox" id="pw-uppercase" checked> UPPERCASE (A-Z)</label>
+                            <label><input type="checkbox" id="pw-lowercase" checked> LOWERCASE (a-z)</label>
+                            <label><input type="checkbox" id="pw-numbers" checked> NUMBERS (0-9)</label>
+                            <label><input type="checkbox" id="pw-symbols" checked> SYMBOLS (!@#$...)</label>
+                        </div>
+                        <div class="input-group">
+                            <label>GENERATE COUNT:</label>
+                            <select id="password-count" class="cyber-select">
+                                <option value="1">1</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="controls">
+                            <button id="btn-generate-password" class="cyber-btn">GENERATE PASSWORD >></button>
+                            <button id="btn-generate-uuid" class="cyber-btn">GENERATE UUID</button>
+                            <button id="btn-generate-apikey" class="cyber-btn">GENERATE API KEY</button>
+                        </div>
+                        <div class="input-group">
+                            <label for="password-output">GENERATED OUTPUT:</label>
+                            <textarea id="password-output" readonly placeholder="GENERATED PASSWORDS WILL APPEAR HERE..."></textarea>
+                        </div>
+                        <div id="password-strength" class="password-strength"></div>
+                        <div class="controls">
+                            <button id="btn-copy-password" class="cyber-btn">COPY TO CLIPBOARD</button>
+                            <button id="btn-password-clear" class="cyber-btn warning">CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timestamp Converter Tool -->
+                <div id="timestamp-tool" class="tool-panel">
+                    <h2>// TIMESTAMP_CONVERTER</h2>
+                    <div class="tool-interface">
+                        <div class="timestamp-live">
+                            <span>CURRENT UNIX TIMESTAMP:</span>
+                            <span id="current-timestamp" class="timestamp-value">0</span>
+                            <button class="cyber-btn small" id="btn-copy-timestamp">COPY</button>
+                        </div>
+                        <hr style="border-color: var(--border-color); margin: 20px 0;">
+                        <h3>UNIX → HUMAN DATE</h3>
+                        <div class="input-group">
+                            <label for="unix-input">UNIX_TIMESTAMP:</label>
+                            <input type="text" id="unix-input" class="cyber-text-input" placeholder="ENTER UNIX TIMESTAMP (e.g., 1709654400)">
+                        </div>
+                        <div class="input-group">
+                            <label><input type="checkbox" id="unix-milliseconds"> INPUT IS MILLISECONDS</label>
+                        </div>
+                        <div class="controls">
+                            <button id="btn-unix-to-human" class="cyber-btn">CONVERT >></button>
+                        </div>
+                        <div class="input-group">
+                            <label for="unix-result">HUMAN_DATE:</label>
+                            <textarea id="unix-result" readonly placeholder="CONVERTED DATE WILL APPEAR HERE..."></textarea>
+                        </div>
+                        <hr style="border-color: var(--border-color); margin: 20px 0;">
+                        <h3>HUMAN DATE → UNIX</h3>
+                        <div class="input-group">
+                            <label for="human-input">DATE_TIME:</label>
+                            <input type="datetime-local" id="human-input" class="cyber-text-input">
+                        </div>
+                        <div class="controls">
+                            <button id="btn-human-to-unix" class="cyber-btn">CONVERT >></button>
+                            <button id="btn-set-now" class="cyber-btn">USE CURRENT TIME</button>
+                        </div>
+                        <div class="input-group">
+                            <label for="human-result">UNIX_TIMESTAMPS:</label>
+                            <textarea id="human-result" readonly placeholder="UNIX TIMESTAMPS WILL APPEAR HERE..."></textarea>
+                        </div>
+                        <div class="controls">
+                            <button id="btn-timestamp-clear" class="cyber-btn warning">CLEAR ALL</button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Connection Settings Tool -->
                 <div id="connection-tool" class="tool-panel">

