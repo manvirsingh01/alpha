@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'settings/connection': 'connection',
         'crypto/jwt': 'jwt',
         'crypto/password': 'password',
+        'stego/vault': 'stego-vault',
         'utilities/timestamp': 'timestamp',
         'kali/all': 'kali-all',
         'kali/nmap': 'kali-nmap',
@@ -113,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'virustotal': 'VIRUSTOTAL',
         'terminal': 'TERMINAL',
         'crypto': 'CRYPTO_TOOLS',
+        'stego': 'STEGO_TOOLS',
         'utilities': 'UTILITIES',
         'kali': 'KALI_TOOLS'
     };
@@ -135,6 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'connection': 'REMOTE_CONNECTION',
         'jwt': 'JWT_DECODER',
         'password': 'PASSWORD_GEN',
+        'stego-vault': 'STEGO_VAULT',
         'timestamp': 'TIMESTAMP',
         'kali-all': 'ALL_TOOLS',
         'kali-nmap': 'NMAP',
@@ -2670,6 +2673,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('btn-password-clear').addEventListener('click', () => {
             passwordOutput.value = '';
             passwordStrength.innerHTML = '';
+        });
+    }
+
+    // --- Stego Vault Tool ---
+    const btnOpenStegoVault = document.getElementById('btn-open-stego-vault');
+    if (btnOpenStegoVault) {
+        btnOpenStegoVault.addEventListener('click', () => {
+            window.open('https://stego-vault-delta.vercel.app', '_blank');
         });
     }
 

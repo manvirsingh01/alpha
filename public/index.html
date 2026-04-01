@@ -137,6 +137,16 @@
                 </div>
 
                 <div class="category">
+                    <div class="category-header" data-category="stego">
+                        <span class="category-icon">▶</span>
+                        <span>STEGO_TOOLS</span>
+                    </div>
+                    <ul class="category-items">
+                        <li data-route="stego/vault">STEGO_VAULT</li>
+                    </ul>
+                </div>
+
+                <div class="category">
                     <div class="category-header" data-category="utilities">
                         <span class="category-icon">▶</span>
                         <span>UTILITIES</span>
@@ -1474,6 +1484,37 @@
                         <div class="controls">
                             <button id="btn-copy-password" class="cyber-btn">COPY TO CLIPBOARD</button>
                             <button id="btn-password-clear" class="cyber-btn warning">CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stego Vault Tool -->
+                <div id="stego-vault-tool" class="tool-panel">
+                    <h2>// STEGO_VAULT</h2>
+                    <div class="tool-interface">
+                        <div class="stego-info">
+                            <p style="color: var(--text-color); margin-bottom: 15px;">
+                                🔐 <strong>STEGO VAULT</strong> - Advanced steganography tool for hiding secret messages within images using LSB encoding.
+                            </p>
+                            <div class="stego-features" style="margin-bottom: 20px; padding: 15px; border: 1px solid var(--border-color); background: rgba(0,255,0,0.05);">
+                                <h3 style="color: var(--primary-color); margin-bottom: 10px;">FEATURES:</h3>
+                                <ul style="color: var(--text-color); list-style: none; padding: 0;">
+                                    <li>▶ LSB Encoding (1, 2, 4-bit depth)</li>
+                                    <li>▶ AES-256 Encryption Support</li>
+                                    <li>▶ Message Encoding & Decoding</li>
+                                    <li>▶ RS Steganalysis Detection</li>
+                                    <li>▶ Bit Plane Visualization</li>
+                                    <li>▶ Histogram Analysis</li>
+                                </ul>
+                            </div>
+                            <div class="controls" style="justify-content: center;">
+                                <button id="btn-open-stego-vault" class="cyber-btn" style="font-size: 1.1em; padding: 15px 30px;">
+                                    🚀 LAUNCH STEGO_VAULT >>
+                                </button>
+                            </div>
+                            <p style="color: var(--text-color); margin-top: 15px; text-align: center; opacity: 0.7;">
+                                Opens in new tab: <a href="https://stego-vault-delta.vercel.app" target="_blank" style="color: var(--primary-color);">stego-vault-delta.vercel.app</a>
+                            </p>
                         </div>
                     </div>
                 </div>
