@@ -27,6 +27,25 @@ A comprehensive web-based platform providing a suite of cybersecurity and networ
 ### 4. System Tools
 * **Web Terminal**: A fully functional in-browser terminal emulator (using `node-pty` and `socket.io`) providing shell access to the host environment.
 
+### 5. Steganography Tools (Stego Vault)
+A powerful steganography toolkit for hiding and extracting secret messages within images.
+
+* **Encode Message**: Hide secret text inside images using LSB (Least Significant Bit) encoding.
+    * Supports PNG, BMP, and TIFF image formats.
+    * Optional AES-256-GCM encryption for enhanced security.
+    * Adjustable LSB bit depth for capacity vs. invisibility tradeoff.
+* **Decode Message**: Extract hidden messages from steganographic images.
+    * Automatic detection of encoding parameters.
+    * Decryption support for AES-256 encrypted payloads.
+* **Analyze Image**: Steganalysis toolkit to detect hidden data in images.
+    * Visual analysis of LSB patterns.
+    * Statistical anomaly detection.
+
+🔗 **Live Tool**: [https://stego-vault-delta.vercel.app](https://stego-vault-delta.vercel.app)  
+📂 **Source Code**: [https://github.com/manvirsingh01/stego-vault](https://github.com/manvirsingh01/stego-vault)
+
+> **Note**: All processing is done locally in the browser - no data is uploaded to any server.
+
 ---
 
 ## 🛠️ Prerequisites
